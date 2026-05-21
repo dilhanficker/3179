@@ -1,644 +1,394 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>A2 Critique</title>
-  <style>
-    :root {
-      color-scheme: light;
-      --ink: #1d2430;
-      --muted: #5f6b7a;
-      --paper: #f7f4ef;
-      --surface: #ffffff;
-      --line: #d8dde6;
-      --blue: #2b6cb0;
-      --green: #2f855a;
-      --red: #c53030;
-      --yellow: #b7791f;
-      --teal: #267d83;
-      --shadow: 0 18px 45px rgba(29, 36, 48, 0.12);
-    }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AI Trends 2025</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#fafafa;color:#111;padding:48px 20px 100px;max-width:900px;margin:0 auto;font-size:15px;line-height:1.6}
+header{margin-bottom:56px}
+.tag{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#999;margin-bottom:14px}
+h1{font-size:2.1rem;font-weight:500;letter-spacing:-.03em;line-height:1.15;color:#111}
+.sub{font-size:.9rem;color:#777;margin-top:10px;max-width:640px;line-height:1.7}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#e8e8e6;border:1px solid #e8e8e6;margin:40px 0}
+.stat{background:#fafafa;padding:18px 16px}
+.sl{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#aaa;margin-bottom:5px}
+.sv{font-size:1.5rem;font-weight:500}
+.sn{font-size:11px;color:#bbb;font-family:'JetBrains Mono',monospace;margin-top:3px}
+.dl{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;border:1px solid #e8e8e6;background:#fff;padding:12px 16px;margin-bottom:52px}
+.dm{font-family:'JetBrains Mono',monospace;font-size:12px;color:#aaa}.dm span{color:#111}
+.btn{font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.08em;background:#111;color:#fafafa;border:none;padding:9px 16px;cursor:pointer}
+.btn:hover{background:#333}
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:44px 52px}
+.full{grid-column:1/-1}
+@media(max-width:620px){.charts{grid-template-columns:1fr}.full{grid-column:auto}.stats{grid-template-columns:1fr 1fr}}
+.cl{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:#bbb;margin-bottom:4px}
+.ct{font-size:.95rem;font-weight:500;color:#111;margin-bottom:4px}
+.cdesc{font-size:12px;color:#aaa;margin-bottom:16px;line-height:1.5}
+.chart-wrap{position:relative;width:100%}
+.legend-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px;font-size:11px;color:#888;font-family:'JetBrains Mono',monospace}
+.li{display:flex;align-items:center;gap:5px}
+.ld{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+hr{border:none;border-top:1px solid #e8e8e6;margin:52px 0}
+footer{border-top:1px solid #e8e8e6;padding-top:20px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#bbb;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
 
-    * {
-      box-sizing: border-box;
-    }
+/* heatmap */
+.heatmap-wrap{width:100%;overflow-x:auto}
+.heatmap{border-collapse:collapse;width:100%;font-family:'JetBrains Mono',monospace;font-size:11px}
+.heatmap th{padding:6px 10px;color:#aaa;font-weight:400;text-align:center;white-space:nowrap}
+.heatmap th.row-h{text-align:left}
+.heatmap td{padding:8px 6px;text-align:center;color:#fff;font-weight:500;border-radius:3px;transition:opacity .15s}
+.heatmap td:hover{opacity:.8}
+.hm-legend{display:flex;align-items:center;gap:6px;margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:10px;color:#aaa}
+.hm-grad{height:10px;width:120px;border-radius:2px;background:linear-gradient(to right,#EFF6FF,#1D4ED8)}
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      color: var(--ink);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background:
-        linear-gradient(135deg, rgba(43, 108, 176, 0.12), transparent 36%),
-        linear-gradient(215deg, rgba(47, 133, 90, 0.12), transparent 32%),
-        var(--paper);
-    }
+/* bubble bin */
+#binCanvas{cursor:crosshair}
 
-    header {
-      border-bottom: 1px solid var(--line);
-      background: rgba(255, 255, 255, 0.74);
-      backdrop-filter: blur(12px);
-      position: sticky;
-      top: 0;
-      z-index: 4;
-    }
-
-    .nav {
-      width: min(1180px, calc(100% - 32px));
-      margin: 0 auto;
-      min-height: 68px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-width: 0;
-    }
-
-    .mark {
-      width: 42px;
-      height: 42px;
-      border-radius: 8px;
-      display: grid;
-      place-items: center;
-      color: #fff;
-      font-weight: 800;
-      background: linear-gradient(145deg, var(--blue), var(--teal));
-      box-shadow: 0 10px 28px rgba(43, 108, 176, 0.24);
-      flex: 0 0 auto;
-    }
-
-    h1,
-    h2,
-    h3,
-    p {
-      margin: 0;
-    }
-
-    h1 {
-      font-size: clamp(1.15rem, 3vw, 1.55rem);
-      line-height: 1.1;
-      letter-spacing: 0;
-    }
-
-    .subhead {
-      margin-top: 4px;
-      color: var(--muted);
-      font-size: 0.9rem;
-      line-height: 1.35;
-    }
-
-    .status-pill {
-      border: 1px solid rgba(47, 133, 90, 0.28);
-      border-radius: 999px;
-      color: #22543d;
-      background: rgba(47, 133, 90, 0.1);
-      padding: 8px 12px;
-      font-size: 0.86rem;
-      font-weight: 700;
-      white-space: nowrap;
-    }
-
-    main {
-      width: min(1180px, calc(100% - 32px));
-      margin: 28px auto 52px;
-      display: grid;
-      gap: 26px;
-    }
-
-    .overview {
-      display: grid;
-      grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
-      gap: 24px;
-      align-items: stretch;
-    }
-
-    .intro {
-      padding: clamp(24px, 5vw, 46px);
-      min-height: 430px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 32px;
-      border-radius: 8px;
-      color: #fff;
-      background:
-        linear-gradient(rgba(20, 29, 38, 0.66), rgba(20, 29, 38, 0.72)),
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 720'%3E%3Crect fill='%23243b53' width='1200' height='720'/%3E%3Cg fill='none' stroke='%23f7fafc' stroke-opacity='.18'%3E%3Cpath d='M120 560C260 380 412 484 530 336s240-88 352-220 206-44 264-88' stroke-width='14'/%3E%3Cpath d='M118 612c164-104 260-28 374-130s180-176 304-164 204-104 314-206' stroke-width='6'/%3E%3Cpath d='M92 214h1036M92 344h1036M92 474h1036' stroke-width='2'/%3E%3Cpath d='M218 110v500M448 110v500M678 110v500M908 110v500' stroke-width='2'/%3E%3C/g%3E%3Cg%3E%3Ccircle cx='218' cy='498' r='16' fill='%23ecc94b'/%3E%3Ccircle cx='448' cy='424' r='16' fill='%2363b3ed'/%3E%3Ccircle cx='678' cy='318' r='16' fill='%2368d391'/%3E%3Ccircle cx='908' cy='238' r='16' fill='%23fc8181'/%3E%3C/g%3E%3C/svg%3E") center / cover;
-      box-shadow: var(--shadow);
-    }
-
-    .intro h2 {
-      max-width: 780px;
-      font-size: clamp(2rem, 8vw, 5.2rem);
-      line-height: 0.94;
-      letter-spacing: 0;
-    }
-
-    .intro p {
-      max-width: 680px;
-      color: rgba(255, 255, 255, 0.86);
-      font-size: clamp(1rem, 2vw, 1.18rem);
-      line-height: 1.65;
-    }
-
-    .metric-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
-    }
-
-    .metric {
-      border: 1px solid rgba(255, 255, 255, 0.26);
-      border-radius: 8px;
-      padding: 14px;
-      background: rgba(255, 255, 255, 0.12);
-    }
-
-    .metric strong {
-      display: block;
-      font-size: clamp(1.35rem, 3vw, 2rem);
-      line-height: 1;
-    }
-
-    .metric span {
-      display: block;
-      margin-top: 7px;
-      color: rgba(255, 255, 255, 0.76);
-      font-size: 0.82rem;
-      line-height: 1.35;
-    }
-
-    .panel,
-    .chart-panel,
-    .rubric {
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: var(--surface);
-      box-shadow: 0 12px 30px rgba(29, 36, 48, 0.08);
-    }
-
-    .panel {
-      padding: 22px;
-      display: grid;
-      gap: 18px;
-    }
-
-    .panel h2,
-    .chart-panel h2,
-    .rubric h2 {
-      font-size: 1.15rem;
-      line-height: 1.3;
-      letter-spacing: 0;
-    }
-
-    .finding {
-      display: grid;
-      grid-template-columns: 42px minmax(0, 1fr);
-      gap: 14px;
-      align-items: start;
-      padding: 16px 0;
-      border-top: 1px solid var(--line);
-    }
-
-    .finding:first-of-type {
-      border-top: 0;
-      padding-top: 4px;
-    }
-
-    .badge {
-      width: 42px;
-      height: 42px;
-      border-radius: 8px;
-      display: grid;
-      place-items: center;
-      color: #fff;
-      font-weight: 800;
-      background: var(--blue);
-    }
-
-    .badge.red {
-      background: var(--red);
-    }
-
-    .badge.green {
-      background: var(--green);
-    }
-
-    .finding h3 {
-      font-size: 1rem;
-      line-height: 1.35;
-    }
-
-    .finding p {
-      margin-top: 6px;
-      color: var(--muted);
-      font-size: 0.94rem;
-      line-height: 1.55;
-    }
-
-    .chart-panel {
-      padding: 24px;
-      display: grid;
-      gap: 18px;
-    }
-
-    .chart-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-    }
-
-    .chart-head p {
-      color: var(--muted);
-      font-size: 0.92rem;
-      line-height: 1.5;
-      max-width: 680px;
-    }
-
-    .segmented {
-      display: inline-flex;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 3px;
-      background: #f8fafc;
-      flex: 0 0 auto;
-    }
-
-    .segmented button {
-      border: 0;
-      border-radius: 6px;
-      padding: 8px 12px;
-      font: inherit;
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: var(--muted);
-      background: transparent;
-      cursor: pointer;
-    }
-
-    .segmented button[aria-pressed="true"] {
-      color: var(--ink);
-      background: #fff;
-      box-shadow: 0 1px 5px rgba(29, 36, 48, 0.12);
-    }
-
-    .viz-wrap {
-      overflow-x: auto;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: linear-gradient(#fff, #fbfcfe);
-    }
-
-    svg {
-      display: block;
-      width: 100%;
-      min-width: 720px;
-      height: auto;
-    }
-
-    .axis {
-      stroke: #a0aec0;
-      stroke-width: 1.2;
-    }
-
-    .grid {
-      stroke: #e2e8f0;
-      stroke-width: 1;
-    }
-
-    .bar {
-      transition: opacity 160ms ease, transform 160ms ease;
-      transform-origin: bottom;
-    }
-
-    .bar:hover {
-      opacity: 0.78;
-      transform: scaleY(1.025);
-    }
-
-    .chart-label {
-      fill: var(--muted);
-      font-size: 13px;
-      font-weight: 650;
-    }
-
-    .chart-value {
-      fill: var(--ink);
-      font-size: 13px;
-      font-weight: 800;
-    }
-
-    .annotation {
-      fill: #ffffff;
-      stroke: rgba(29, 36, 48, 0.08);
-      stroke-width: 1;
-    }
-
-    .annotation-text {
-      fill: var(--ink);
-      font-size: 12px;
-      font-weight: 720;
-    }
-
-    .rubric {
-      overflow: hidden;
-    }
-
-    .rubric h2 {
-      padding: 22px 22px 0;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 12px;
-      min-width: 680px;
-    }
-
-    th,
-    td {
-      text-align: left;
-      vertical-align: top;
-      padding: 16px 22px;
-      border-top: 1px solid var(--line);
-      font-size: 0.94rem;
-      line-height: 1.5;
-    }
-
-    th {
-      color: var(--muted);
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      background: #f8fafc;
-    }
-
-    .score {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 44px;
-      height: 32px;
-      border-radius: 8px;
-      color: #fff;
-      font-weight: 800;
-      background: var(--blue);
-    }
-
-    .score.warn {
-      background: var(--yellow);
-    }
-
-    .score.good {
-      background: var(--green);
-    }
-
-    footer {
-      width: min(1180px, calc(100% - 32px));
-      margin: 0 auto 28px;
-      color: var(--muted);
-      font-size: 0.88rem;
-      line-height: 1.5;
-    }
-
-    @media (max-width: 860px) {
-      .overview {
-        grid-template-columns: 1fr;
-      }
-
-      .chart-head {
-        align-items: flex-start;
-        flex-direction: column;
-      }
-
-      .metric-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .nav {
-        align-items: flex-start;
-        flex-direction: column;
-        padding: 14px 0;
-      }
-
-      .status-pill {
-        white-space: normal;
-      }
-    }
-  </style>
+/* radar */
+/* no extra needed */
+</style>
 </head>
 <body>
-  <header>
-    <div class="nav">
-      <div class="brand">
-        <div class="mark" aria-hidden="true">A2</div>
-        <div>
-          <h1>Visualisation Critique</h1>
-          <p class="subhead">Data visualisation assessment page</p>
-        </div>
-      </div>
-      <div class="status-pill">Ready to run locally</div>
+
+<header>
+  <p class="tag">Dataset · Technology &amp; AI · 2025</p>
+  <h1>Global AI trends</h1>
+  <p class="sub">A student research dataset tracking private investment, enterprise adoption, market segmentation, and country-level AI activity through 2025 — sourced from Stanford HAI, McKinsey, IDC, Crunchbase, and Goldman Sachs.</p>
+</header>
+
+<div class="stats">
+  <div class="stat"><div class="sl">Market size</div><div class="sv">$244B</div><div class="sn">2025 global</div></div>
+  <div class="stat"><div class="sl">Private invest.</div><div class="sv">$344B</div><div class="sn">↑ 127% YoY</div></div>
+  <div class="stat"><div class="sl">Orgs using AI</div><div class="sv">88%</div><div class="sn">McKinsey 2025</div></div>
+  <div class="stat"><div class="sl">GDP boost 2030</div><div class="sv">$15.7T</div><div class="sn">PwC estimate</div></div>
+</div>
+
+<div class="dl">
+  <div class="dm"><span>ai_technology_trends_2025.csv</span> · 10 datasets · 2025</div>
+  <button class="btn" id="csvBtn">↓ Download CSV</button>
+</div>
+
+<div class="charts">
+
+  <!-- 1: LINE — org adoption -->
+  <div class="full">
+    <p class="cl">Chart 01 · Line</p>
+    <p class="ct">% of organisations using AI, 2017–2025</p>
+    <p class="cdesc">Line chart — shows continuous change over time. The upward slope reveals how quickly AI moved from early adopters to mainstream.</p>
+    <div class="chart-wrap" style="height:200px">
+      <canvas id="c1" role="img" aria-label="Line chart of AI adoption rate 2017 to 2025">Grew from 20% in 2017 to 88% in 2025.</canvas>
     </div>
-  </header>
+  </div>
 
-  <main>
-    <section class="overview" aria-label="Critique overview">
-      <div class="intro">
-        <div>
-          <h2>A clear critique starts with evidence.</h2>
-          <p>
-            This page gives you a working base for your A2 critique: a headline judgement,
-            specific findings, a comparative visual, and a simple scoring table. Replace the
-            sample copy with your chosen visualisation analysis.
-          </p>
-        </div>
+  <!-- 2: LINE — spending forecast -->
+  <div class="full">
+    <p class="cl">Chart 02 · Line</p>
+    <p class="ct">Global AI spending forecast, 2024–2028 (USD billions)</p>
+    <p class="cdesc">Line chart with fill — the shaded area emphasises magnitude of growth. Forecasted values shown with a dashed segment.</p>
+    <div class="legend-row">
+      <span class="li"><span class="ld" style="background:#10B981"></span>Actual</span>
+      <span class="li"><span class="ld" style="background:#10B98155;border:1px dashed #10B981"></span>Forecast</span>
+    </div>
+    <div class="chart-wrap" style="height:200px">
+      <canvas id="c2" role="img" aria-label="Line chart of global AI spending forecast 2024 to 2028">Grows from $235B to $632B by 2028.</canvas>
+    </div>
+  </div>
 
-        <div class="metric-grid" aria-label="Summary metrics">
-          <div class="metric">
-            <strong>3</strong>
-            <span>main critique findings</span>
-          </div>
-          <div class="metric">
-            <strong>5</strong>
-            <span>rubric categories</span>
-          </div>
-          <div class="metric">
-            <strong>1</strong>
-            <span>comparison chart</span>
-          </div>
-        </div>
-      </div>
+  <!-- 3: BAR — private investment -->
+  <div class="full">
+    <p class="cl">Chart 03 · Vertical bar</p>
+    <p class="ct">Private AI investment, 2017–2025 (USD billions)</p>
+    <p class="cdesc">Bar chart — discrete yearly values compared side by side. The 2025 bar is highlighted to draw attention to the record year.</p>
+    <div class="chart-wrap" style="height:220px">
+      <canvas id="c3" role="img" aria-label="Bar chart of private AI investment 2017 to 2025">Rose from $15.7B in 2017 to $344.7B in 2025.</canvas>
+    </div>
+  </div>
 
-      <aside class="panel" aria-label="Key findings">
-        <h2>Key Findings</h2>
+  <!-- 4: HEATMAP — investment by country × year -->
+  <div class="full">
+    <p class="cl">Chart 04 · Heatmap</p>
+    <p class="ct">AI private investment by country, 2021–2025 (USD billions)</p>
+    <p class="cdesc">Heatmap — colour intensity encodes value across two dimensions at once. Darker = higher investment. Spot the USA's dominance and the acceleration after 2023 at a glance.</p>
+    <div class="heatmap-wrap">
+      <table class="heatmap" id="hmTable"></table>
+    </div>
+    <div class="hm-legend">
+      <span>Low</span><div class="hm-grad"></div><span>High</span>
+    </div>
+  </div>
 
-        <article class="finding">
-          <div class="badge red">1</div>
-          <div>
-            <h3>Message hierarchy needs a sharper lead</h3>
-            <p>The audience should understand the main takeaway before they inspect the supporting details.</p>
-          </div>
-        </article>
+  <!-- 5: DOUGHNUT — market segment -->
+  <div>
+    <p class="cl">Chart 05 · Doughnut</p>
+    <p class="ct">AI market by segment, 2025</p>
+    <p class="cdesc">Doughnut — shows part-to-whole proportions. The hole keeps it readable and less cluttered than a pie chart.</p>
+    <div class="chart-wrap" style="height:220px">
+      <canvas id="c5" role="img" aria-label="Doughnut chart of AI market segments 2025">Software leads at $139B.</canvas>
+    </div>
+    <div class="legend-row" style="margin-top:12px">
+      <span class="li"><span class="ld" style="background:#4F86F7"></span>Software $139B</span>
+      <span class="li"><span class="ld" style="background:#9B72CF"></span>Hardware $58.6B</span>
+      <span class="li"><span class="ld" style="background:#38BEC9"></span>Services $58.6B</span>
+      <span class="li"><span class="ld" style="background:#F4A93A"></span>GenAI $44B</span>
+    </div>
+  </div>
 
-        <article class="finding">
-          <div class="badge">2</div>
-          <div>
-            <h3>Encoding choices are partly effective</h3>
-            <p>Position and length carry most values well, but colour is doing more work than it needs to.</p>
-          </div>
-        </article>
+  <!-- 6: RADAR — country AI scores -->
+  <div>
+    <p class="cl">Chart 06 · Radar</p>
+    <p class="ct">Country AI strength index, 2025</p>
+    <p class="cdesc">Radar — compares multiple countries across several dimensions simultaneously. Larger area = stronger overall AI position.</p>
+    <div class="legend-row">
+      <span class="li"><span class="ld" style="background:#4F86F7"></span>USA</span>
+      <span class="li"><span class="ld" style="background:#F26B5B"></span>China</span>
+      <span class="li"><span class="ld" style="background:#10B981"></span>UK</span>
+    </div>
+    <div class="chart-wrap" style="height:220px">
+      <canvas id="c6" role="img" aria-label="Radar chart comparing USA, China and UK across AI strength dimensions">USA leads overall, China strong on talent and infrastructure.</canvas>
+    </div>
+  </div>
 
-        <article class="finding">
-          <div class="badge green">3</div>
-          <div>
-            <h3>Context improves trust</h3>
-            <p>Brief notes on source, timeframe, and limitations help the viewer interpret the pattern responsibly.</p>
-          </div>
-        </article>
-      </aside>
-    </section>
+  <!-- 7: HORIZONTAL BAR — use cases -->
+  <div class="full">
+    <p class="cl">Chart 07 · Horizontal bar</p>
+    <p class="ct">Fastest-growing AI use cases (5-year CAGR %)</p>
+    <p class="cdesc">Horizontal bar — better for ranked lists with long labels. Bars extend left-to-right which is intuitive for reading ranked results.</p>
+    <div class="chart-wrap" style="height:260px">
+      <canvas id="c7" role="img" aria-label="Horizontal bar chart of fastest growing AI use cases by CAGR">Claims processing leads at 35.8% CAGR.</canvas>
+    </div>
+  </div>
 
-    <section class="chart-panel" aria-label="Comparison chart">
-      <div class="chart-head">
-        <div>
-          <h2>Critique Score Comparison</h2>
-          <p>Sample scores compare the original visualisation with an improved version across common critique criteria.</p>
-        </div>
-        <div class="segmented" aria-label="Chart mode">
-          <button type="button" data-mode="original" aria-pressed="true">Original</button>
-          <button type="button" data-mode="improved" aria-pressed="false">Improved</button>
-        </div>
-      </div>
+  <!-- 8: BUBBLE / BIN MAP — use case scatter -->
+  <div class="full">
+    <p class="cl">Chart 08 · Bubble / Bin map</p>
+    <p class="ct">AI use case landscape — market size vs. growth rate</p>
+    <p class="cdesc">Bubble chart (binned) — each bubble is an AI use case. X axis = current market size, Y axis = growth rate, bubble size = investment received. Clusters reveal which sectors are both large and fast-growing.</p>
+    <div class="legend-row">
+      <span class="li"><span class="ld" style="background:#4F86F750;border:1.5px solid #4F86F7;border-radius:50%;width:14px;height:14px"></span>Bubble size = investment</span>
+    </div>
+    <div class="chart-wrap" style="height:320px">
+      <canvas id="c8" role="img" aria-label="Bubble chart of AI use cases by market size and growth rate">Healthcare and finance cluster in high-growth, large-market quadrant.</canvas>
+    </div>
+  </div>
 
-      <div class="viz-wrap">
-        <svg viewBox="0 0 900 460" role="img" aria-labelledby="chart-title chart-desc">
-          <title id="chart-title">Critique scores by category</title>
-          <desc id="chart-desc">Bar chart comparing five critique categories on a zero to ten scale.</desc>
-          <line class="grid" x1="110" x2="835" y1="354" y2="354"></line>
-          <line class="grid" x1="110" x2="835" y1="290" y2="290"></line>
-          <line class="grid" x1="110" x2="835" y1="226" y2="226"></line>
-          <line class="grid" x1="110" x2="835" y1="162" y2="162"></line>
-          <line class="grid" x1="110" x2="835" y1="98" y2="98"></line>
-          <line class="axis" x1="110" x2="835" y1="354" y2="354"></line>
-          <line class="axis" x1="110" x2="110" y1="70" y2="354"></line>
+  <!-- 9: BAR — hyperscaler capex -->
+  <div>
+    <p class="cl">Chart 09 · Vertical bar</p>
+    <p class="ct">Hyperscaler AI capex, 2022–2026 (USD billions)</p>
+    <p class="cdesc">Bar chart — year-on-year capex comparison. The 2026 bar is a forecast, shown in a lighter shade.</p>
+    <div class="chart-wrap" style="height:220px">
+      <canvas id="c9" role="img" aria-label="Bar chart of hyperscaler AI capital expenditure 2022 to 2026">Capex hit $400B in 2025, projected $500B in 2026.</canvas>
+    </div>
+  </div>
 
-          <text class="chart-label" x="80" y="358">0</text>
-          <text class="chart-label" x="80" y="294">2.5</text>
-          <text class="chart-label" x="80" y="230">5</text>
-          <text class="chart-label" x="80" y="166">7.5</text>
-          <text class="chart-label" x="80" y="102">10</text>
+  <!-- 10: HORIZONTAL BAR — enterprise adoption -->
+  <div>
+    <p class="cl">Chart 10 · Horizontal bar</p>
+    <p class="ct">Enterprise AI adoption by business function</p>
+    <p class="cdesc">Horizontal bar — each bar is a business function ranked by adoption rate. Colour encodes the department category.</p>
+    <div class="chart-wrap" style="height:220px">
+      <canvas id="c10" role="img" aria-label="Horizontal bar chart of enterprise AI adoption by function">IT Operations leads at 38%.</canvas>
+    </div>
+  </div>
 
-          <g id="bars"></g>
+</div>
 
-          <rect class="annotation" x="596" y="48" width="238" height="56" rx="8"></rect>
-          <text class="annotation-text" x="612" y="70">Toggle the score view</text>
-          <text class="chart-label" x="612" y="90">The chart updates without any libraries.</text>
-        </svg>
-      </div>
-    </section>
+<hr>
+<footer>
+  <span>ai_technology_trends_2025 · personal research project</span>
+  <span>Stanford HAI · McKinsey · IDC · Crunchbase · Goldman Sachs</span>
+</footer>
 
-    <section class="rubric" aria-label="Rubric table">
-      <h2>Assessment Notes</h2>
-      <div style="overflow-x:auto;">
-        <table>
-          <thead>
-            <tr>
-              <th>Criterion</th>
-              <th>Critique Point</th>
-              <th>Action</th>
-              <th>Score</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Purpose</td>
-              <td>Main insight is present but could be placed earlier.</td>
-              <td>Move the headline takeaway above supporting details.</td>
-              <td><span class="score warn">6</span></td>
-            </tr>
-            <tr>
-              <td>Data</td>
-              <td>Source and date range need to be easier to find.</td>
-              <td>Add a concise source note under the chart.</td>
-              <td><span class="score">7</span></td>
-            </tr>
-            <tr>
-              <td>Encoding</td>
-              <td>Position and length are clear, while colour needs restraint.</td>
-              <td>Reserve colour for emphasis instead of every category.</td>
-              <td><span class="score good">8</span></td>
-            </tr>
-            <tr>
-              <td>Accessibility</td>
-              <td>Labels work, but contrast should be checked for smaller text.</td>
-              <td>Use stronger text contrast and avoid colour-only meaning.</td>
-              <td><span class="score">7</span></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-  </main>
+<script>
+const CSV=`dataset,year,label,value,unit,source
+private_investment,2017,2017,15.7,bn_usd,Stanford HAI
+private_investment,2018,2018,28.5,bn_usd,Stanford HAI
+private_investment,2019,2019,37.4,bn_usd,Stanford HAI
+private_investment,2020,2020,41.2,bn_usd,Stanford HAI
+private_investment,2021,2021,114.9,bn_usd,Stanford HAI
+private_investment,2022,2022,91.9,bn_usd,Stanford HAI
+private_investment,2023,2023,95.9,bn_usd,Stanford HAI
+private_investment,2024,2024,151.8,bn_usd,Stanford HAI
+private_investment,2025,2025,344.7,bn_usd,SQ Magazine
+market_segment,2025,Software,139.1,bn_usd,IDC
+market_segment,2025,Hardware,58.6,bn_usd,IDC
+market_segment,2025,Services,58.6,bn_usd,IDC
+market_segment,2025,GenAI,44.0,bn_usd,Gartner
+enterprise_adoption,2025,IT Operations,38,percent,McKinsey
+enterprise_adoption,2025,Customer Service,35,percent,McKinsey
+enterprise_adoption,2025,Marketing,33,percent,McKinsey
+enterprise_adoption,2025,Supply Chain,26,percent,McKinsey
+enterprise_adoption,2025,Finance,22,percent,McKinsey
+enterprise_adoption,2025,HR,19,percent,McKinsey
+spending_forecast,2024,2024,235,bn_usd,IDC
+spending_forecast,2025,2025,316,bn_usd,IDC
+spending_forecast,2026,2026,407,bn_usd,IDC
+spending_forecast,2027,2027,512,bn_usd,IDC
+spending_forecast,2028,2028,632,bn_usd,IDC
+org_adoption,2017,2017,20,percent,McKinsey
+org_adoption,2018,2018,29,percent,McKinsey
+org_adoption,2019,2019,37,percent,McKinsey
+org_adoption,2020,2020,42,percent,McKinsey
+org_adoption,2021,2021,50,percent,McKinsey
+org_adoption,2022,2022,60,percent,McKinsey
+org_adoption,2023,2023,72,percent,McKinsey
+org_adoption,2024,2024,78,percent,McKinsey
+org_adoption,2025,2025,88,percent,McKinsey
+use_case_growth,2025,Claims processing,35.8,cagr,IDC
+use_case_growth,2025,Fraud detection,31.2,cagr,IDC
+use_case_growth,2025,Code generation,29.5,cagr,IDC
+use_case_growth,2025,Medical imaging,27.3,cagr,IDC
+use_case_growth,2025,Customer chat,24.1,cagr,IDC
+use_case_growth,2025,Content creation,22.8,cagr,IDC
+hyperscaler_capex,2022,2022,68,bn_usd,Goldman Sachs
+hyperscaler_capex,2023,2023,110,bn_usd,Goldman Sachs
+hyperscaler_capex,2024,2024,222,bn_usd,Goldman Sachs
+hyperscaler_capex,2025,2025,400,bn_usd,Goldman Sachs
+hyperscaler_capex,2026,2026,500,bn_usd,Goldman Sachs`;
 
-  <footer>
-    Built as a single-file HTML page so it can open directly in a browser or through a local server.
-  </footer>
+document.getElementById('csvBtn').addEventListener('click',()=>{
+  const b=new Blob([CSV],{type:'text/csv'});
+  const u=URL.createObjectURL(b);
+  const a=document.createElement('a');a.href=u;a.download='ai_technology_trends_2025.csv';a.click();
+  URL.revokeObjectURL(u);
+});
 
-  <script>
-    const categories = ["Purpose", "Data", "Encoding", "Accessibility", "Narrative"];
-    const scores = {
-      original: [6, 7, 5, 6, 5],
-      improved: [8, 8, 8, 9, 8]
-    };
-    const palette = ["#2b6cb0", "#2f855a", "#c05621", "#267d83", "#805ad5"];
-    const barsGroup = document.querySelector("#bars");
-    const buttons = document.querySelectorAll("[data-mode]");
+function rows(ds){
+  return CSV.trim().split('\n').slice(1).map(l=>l.split(',')).filter(r=>r[0]===ds).map(r=>({year:r[1],label:r[2],value:+r[3]}));
+}
 
-    function drawBars(mode) {
-      const values = scores[mode];
-      const maxScore = 10;
-      const chartBottom = 354;
-      const chartHeight = 256;
-      const barWidth = 82;
-      const gap = 54;
-      const startX = 142;
+Chart.defaults.font.family="'JetBrains Mono',monospace";
+Chart.defaults.font.size=11;
+Chart.defaults.color='#aaa';
+const grid={color:'rgba(0,0,0,0.05)',drawBorder:false};
+const tip={backgroundColor:'#fff',borderColor:'#e8e8e6',borderWidth:1,titleColor:'#111',bodyColor:'#888',padding:10,cornerRadius:4};
 
-      barsGroup.innerHTML = values.map((value, index) => {
-        const height = (value / maxScore) * chartHeight;
-        const x = startX + index * (barWidth + gap);
-        const y = chartBottom - height;
-        const category = categories[index];
-        const color = palette[index];
+const blue='#4F86F7',green='#10B981',amber='#F4A93A',red='#F26B5B',purple='#9B72CF',teal='#38BEC9',pink='#E8609A';
 
-        return `
-          <g>
-            <rect class="bar" x="${x}" y="${y}" width="${barWidth}" height="${height}" rx="8" fill="${color}">
-              <title>${category}: ${value}/10</title>
-            </rect>
-            <text class="chart-value" x="${x + barWidth / 2}" y="${y - 12}" text-anchor="middle">${value}/10</text>
-            <text class="chart-label" x="${x + barWidth / 2}" y="390" text-anchor="middle">${category}</text>
-          </g>
-        `;
-      }).join("");
-    }
+// C1 — line org adoption
+(()=>{
+  const d=rows('org_adoption');
+  new Chart(document.getElementById('c1'),{type:'line',data:{labels:d.map(r=>r.year),datasets:[{data:d.map(r=>r.value),borderColor:teal,borderWidth:2.5,pointBackgroundColor:teal,pointRadius:4,tension:.4,fill:true,backgroundColor:teal+'22'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{...tip,callbacks:{label:c=>' '+c.raw+'%'}}},scales:{x:{grid:{display:false}},y:{grid,min:0,max:100,ticks:{callback:v=>v+'%'}}}}});
+})();
 
-    buttons.forEach((button) => {
-      button.addEventListener("click", () => {
-        const mode = button.dataset.mode;
-        buttons.forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
-        drawBars(mode);
-      });
+// C2 — line forecast with dashed future
+(()=>{
+  const d=rows('spending_forecast');
+  const labels=d.map(r=>r.year);
+  const vals=d.map(r=>r.value);
+  new Chart(document.getElementById('c2'),{type:'line',data:{labels,datasets:[
+    {data:[235,316,null,null,null],borderColor:green,borderWidth:2.5,pointBackgroundColor:green,pointRadius:4,tension:.35,fill:true,backgroundColor:green+'18'},
+    {data:[null,316,407,512,632],borderColor:green,borderWidth:2,borderDash:[5,4],pointBackgroundColor:green+'88',pointRadius:3,tension:.35,fill:false}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{...tip,callbacks:{label:c=>' $'+c.raw+'B'}}},scales:{x:{grid:{display:false}},y:{grid,ticks:{callback:v=>'$'+v+'B'}}}}});
+})();
+
+// C3 — bar private investment
+(()=>{
+  const d=rows('private_investment');
+  new Chart(document.getElementById('c3'),{type:'bar',data:{labels:d.map(r=>r.year),datasets:[{data:d.map(r=>r.value),backgroundColor:d.map((_,i)=>i===d.length-1?blue:blue+'77'),borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{...tip,callbacks:{label:c=>' $'+c.raw+'B'}}},scales:{x:{grid:{display:false}},y:{grid,ticks:{callback:v=>'$'+v+'B'}}}}});
+})();
+
+// C4 — HEATMAP
+(()=>{
+  const countries=['USA','China','UK','India','Germany','France'];
+  const data={
+    USA:    {2021:110,2022:95,2023:105,2024:130,2025:285.9},
+    China:  {2021:17, 2022:14,2023:11, 2024:9.3, 2025:12.4},
+    UK:     {2021:5.5,2022:6.2,2023:7.0,2024:4.5,2025:9.1},
+    India:  {2021:2.0,2022:2.8,2023:3.5,2024:4.8,2025:6.2},
+    Germany:{2021:2.5,2022:3.0,2023:3.6,2024:4.1,2025:4.8},
+    France: {2021:1.8,2022:2.2,2023:2.8,2024:3.3,2025:3.9}
+  };
+  const years=[2021,2022,2023,2024,2025];
+  const allVals=countries.flatMap(c=>years.map(y=>data[c][y]));
+  const minV=Math.min(...allVals),maxV=Math.max(...allVals);
+
+  function heatColor(v){
+    const t=Math.pow((v-minV)/(maxV-minV),0.35);
+    const stops=[
+      [239,246,255],[191,219,254],[147,197,253],[96,165,250],[59,130,246],[37,99,235],[29,78,216]
+    ];
+    const idx=t*(stops.length-1);
+    const lo=stops[Math.floor(idx)],hi=stops[Math.min(Math.ceil(idx),stops.length-1)];
+    const f=idx-Math.floor(idx);
+    const r=Math.round(lo[0]+(hi[0]-lo[0])*f);
+    const g=Math.round(lo[1]+(hi[1]-lo[1])*f);
+    const b=Math.round(lo[2]+(hi[2]-lo[2])*f);
+    const lum=0.299*r+0.587*g+0.114*b;
+    return {bg:`rgb(${r},${g},${b})`,txt:lum>140?'#1e3a5f':'#fff'};
+  }
+
+  const table=document.getElementById('hmTable');
+  let html=`<tr><th class="row-h"></th>${years.map(y=>`<th>${y}</th>`).join('')}</tr>`;
+  countries.forEach(c=>{
+    html+=`<tr><th class="row-h" style="text-align:left;padding:6px 10px;color:#666;white-space:nowrap">${c}</th>`;
+    years.forEach(y=>{
+      const v=data[c][y];
+      const {bg,txt}=heatColor(v);
+      html+=`<td style="background:${bg};color:${txt}" title="${c} ${y}: $${v}B">$${v<10?v.toFixed(1):Math.round(v)}B</td>`;
     });
+    html+='</tr>';
+  });
+  table.innerHTML=html;
+})();
 
-    drawBars("original");
-  </script>
+// C5 — doughnut
+(()=>{
+  const d=rows('market_segment');
+  new Chart(document.getElementById('c5'),{type:'doughnut',data:{labels:d.map(r=>r.label),datasets:[{data:d.map(r=>r.value),backgroundColor:[blue,purple,teal,amber],borderWidth:0,hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,cutout:'62%',plugins:{legend:{display:false},tooltip:{...tip,callbacks:{label:c=>' $'+c.raw+'B'}}}}});
+})();
+
+// C6 — radar
+(()=>{
+  const labels=['Investment','Talent','Research','Infrastructure','Adoption','Policy'];
+  const rTip={...tip};
+  new Chart(document.getElementById('c6'),{type:'radar',data:{labels,datasets:[
+    {label:'USA',  data:[98,90,95,88,85,70],borderColor:blue,  backgroundColor:blue+'22',  borderWidth:2,pointBackgroundColor:blue,  pointRadius:3},
+    {label:'China',data:[35,80,75,85,70,60],borderColor:red,   backgroundColor:red+'22',   borderWidth:2,pointBackgroundColor:red,   pointRadius:3},
+    {label:'UK',   data:[20,65,70,60,72,80],borderColor:green, backgroundColor:green+'22', borderWidth:2,pointBackgroundColor:green, pointRadius:3}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{...rTip}},scales:{r:{grid:{color:'rgba(0,0,0,0.07)'},angleLines:{color:'rgba(0,0,0,0.07)'},pointLabels:{font:{size:10},color:'#888'},ticks:{display:false},suggestedMin:0,suggestedMax:100}}}});
+})();
+
+// C7 — horizontal bar use cases
+(()=>{
+  const d=rows('use_case_growth');
+  const colors=[red,amber,green,blue,purple,teal];
+  new Chart(document.getElementById('c7'),{type:'bar',data:{labels:d.map(r=>r.label),datasets:[{data:d.map(r=>r.value),backgroundColor:colors,borderRadius:4}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{...tip,callbacks:{label:c=>' '+c.raw+'% CAGR'}}},scales:{x:{grid,ticks:{callback:v=>v+'%'}},y:{grid:{display:false}}}}});
+})();
+
+// C8 — bubble bin map
+(()=>{
+  const usesCases=[
+    {label:'Healthcare AI',  x:38, y:27.3,r:22,color:red},
+    {label:'Finance AI',     x:44, y:31.2,r:28,color:blue},
+    {label:'Code generation',x:18, y:29.5,r:14,color:green},
+    {label:'Retail AI',      x:28, y:18.4,r:18,color:amber},
+    {label:'Legal AI',       x:12, y:24.0,r:10,color:purple},
+    {label:'Manufacturing',  x:32, y:16.2,r:20,color:teal},
+    {label:'Customer chat',  x:22, y:24.1,r:16,color:pink},
+    {label:'Content creation',x:16,y:22.8,r:12,color:'#F26B5B'},
+    {label:'Cybersecurity',  x:26, y:20.4,r:18,color:'#7C3AED'},
+    {label:'Logistics AI',   x:20, y:14.8,r:14,color:'#0891B2'},
+  ];
+  new Chart(document.getElementById('c8'),{type:'bubble',data:{datasets:usesCases.map(u=>({label:u.label,data:[{x:u.x,y:u.y,r:u.r/2.2}],backgroundColor:u.color+'66',borderColor:u.color,borderWidth:1.5}))},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{...tip,callbacks:{title:c=>c[0].dataset.label,label:c=>`Market size: $${c.parsed.x}B | CAGR: ${c.parsed.y}%`}}},scales:{x:{grid,title:{display:true,text:'Market size (USD billions)',color:'#aaa',font:{size:10}},min:0,max:60},y:{grid,title:{display:true,text:'Growth rate (CAGR %)',color:'#aaa',font:{size:10}},min:0,max:40}}}});
+})();
+
+// C9 — bar capex
+(()=>{
+  const d=rows('hyperscaler_capex');
+  new Chart(document.getElementById('c9'),{type:'bar',data:{labels:d.map(r=>r.year),datasets:[{data:d.map(r=>r.value),backgroundColor:d.map((_,i)=>i===d.length-1?amber+'66':amber),borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{...tip,callbacks:{label:c=>' $'+c.raw+'B'}}},scales:{x:{grid:{display:false}},y:{grid,ticks:{callback:v=>'$'+v+'B'}}}}});
+})();
+
+// C10 — horizontal bar enterprise adoption
+(()=>{
+  const d=rows('enterprise_adoption');
+  const colors=[blue,teal,green,amber,purple,pink];
+  new Chart(document.getElementById('c10'),{type:'bar',data:{labels:d.map(r=>r.label),datasets:[{data:d.map(r=>r.value),backgroundColor:colors,borderRadius:4}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{...tip,callbacks:{label:c=>' '+c.raw+'%'}}},scales:{x:{grid,max:50,ticks:{callback:v=>v+'%'}},y:{grid:{display:false}}}}});
+})();
+</script>
 </body>
 </html>
