@@ -1,0 +1,644 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A2 Critique</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #1d2430;
+      --muted: #5f6b7a;
+      --paper: #f7f4ef;
+      --surface: #ffffff;
+      --line: #d8dde6;
+      --blue: #2b6cb0;
+      --green: #2f855a;
+      --red: #c53030;
+      --yellow: #b7791f;
+      --teal: #267d83;
+      --shadow: 0 18px 45px rgba(29, 36, 48, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        linear-gradient(135deg, rgba(43, 108, 176, 0.12), transparent 36%),
+        linear-gradient(215deg, rgba(47, 133, 90, 0.12), transparent 32%),
+        var(--paper);
+    }
+
+    header {
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.74);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 4;
+    }
+
+    .nav {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      min-height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-weight: 800;
+      background: linear-gradient(145deg, var(--blue), var(--teal));
+      box-shadow: 0 10px 28px rgba(43, 108, 176, 0.24);
+      flex: 0 0 auto;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    h1 {
+      font-size: clamp(1.15rem, 3vw, 1.55rem);
+      line-height: 1.1;
+      letter-spacing: 0;
+    }
+
+    .subhead {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.35;
+    }
+
+    .status-pill {
+      border: 1px solid rgba(47, 133, 90, 0.28);
+      border-radius: 999px;
+      color: #22543d;
+      background: rgba(47, 133, 90, 0.1);
+      padding: 8px 12px;
+      font-size: 0.86rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    main {
+      width: min(1180px, calc(100% - 32px));
+      margin: 28px auto 52px;
+      display: grid;
+      gap: 26px;
+    }
+
+    .overview {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .intro {
+      padding: clamp(24px, 5vw, 46px);
+      min-height: 430px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 32px;
+      border-radius: 8px;
+      color: #fff;
+      background:
+        linear-gradient(rgba(20, 29, 38, 0.66), rgba(20, 29, 38, 0.72)),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 720'%3E%3Crect fill='%23243b53' width='1200' height='720'/%3E%3Cg fill='none' stroke='%23f7fafc' stroke-opacity='.18'%3E%3Cpath d='M120 560C260 380 412 484 530 336s240-88 352-220 206-44 264-88' stroke-width='14'/%3E%3Cpath d='M118 612c164-104 260-28 374-130s180-176 304-164 204-104 314-206' stroke-width='6'/%3E%3Cpath d='M92 214h1036M92 344h1036M92 474h1036' stroke-width='2'/%3E%3Cpath d='M218 110v500M448 110v500M678 110v500M908 110v500' stroke-width='2'/%3E%3C/g%3E%3Cg%3E%3Ccircle cx='218' cy='498' r='16' fill='%23ecc94b'/%3E%3Ccircle cx='448' cy='424' r='16' fill='%2363b3ed'/%3E%3Ccircle cx='678' cy='318' r='16' fill='%2368d391'/%3E%3Ccircle cx='908' cy='238' r='16' fill='%23fc8181'/%3E%3C/g%3E%3C/svg%3E") center / cover;
+      box-shadow: var(--shadow);
+    }
+
+    .intro h2 {
+      max-width: 780px;
+      font-size: clamp(2rem, 8vw, 5.2rem);
+      line-height: 0.94;
+      letter-spacing: 0;
+    }
+
+    .intro p {
+      max-width: 680px;
+      color: rgba(255, 255, 255, 0.86);
+      font-size: clamp(1rem, 2vw, 1.18rem);
+      line-height: 1.65;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .metric {
+      border: 1px solid rgba(255, 255, 255, 0.26);
+      border-radius: 8px;
+      padding: 14px;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .metric strong {
+      display: block;
+      font-size: clamp(1.35rem, 3vw, 2rem);
+      line-height: 1;
+    }
+
+    .metric span {
+      display: block;
+      margin-top: 7px;
+      color: rgba(255, 255, 255, 0.76);
+      font-size: 0.82rem;
+      line-height: 1.35;
+    }
+
+    .panel,
+    .chart-panel,
+    .rubric {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      box-shadow: 0 12px 30px rgba(29, 36, 48, 0.08);
+    }
+
+    .panel {
+      padding: 22px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .panel h2,
+    .chart-panel h2,
+    .rubric h2 {
+      font-size: 1.15rem;
+      line-height: 1.3;
+      letter-spacing: 0;
+    }
+
+    .finding {
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr);
+      gap: 14px;
+      align-items: start;
+      padding: 16px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .finding:first-of-type {
+      border-top: 0;
+      padding-top: 4px;
+    }
+
+    .badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-weight: 800;
+      background: var(--blue);
+    }
+
+    .badge.red {
+      background: var(--red);
+    }
+
+    .badge.green {
+      background: var(--green);
+    }
+
+    .finding h3 {
+      font-size: 1rem;
+      line-height: 1.35;
+    }
+
+    .finding p {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 0.94rem;
+      line-height: 1.55;
+    }
+
+    .chart-panel {
+      padding: 24px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .chart-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .chart-head p {
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.5;
+      max-width: 680px;
+    }
+
+    .segmented {
+      display: inline-flex;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 3px;
+      background: #f8fafc;
+      flex: 0 0 auto;
+    }
+
+    .segmented button {
+      border: 0;
+      border-radius: 6px;
+      padding: 8px 12px;
+      font: inherit;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--muted);
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .segmented button[aria-pressed="true"] {
+      color: var(--ink);
+      background: #fff;
+      box-shadow: 0 1px 5px rgba(29, 36, 48, 0.12);
+    }
+
+    .viz-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: linear-gradient(#fff, #fbfcfe);
+    }
+
+    svg {
+      display: block;
+      width: 100%;
+      min-width: 720px;
+      height: auto;
+    }
+
+    .axis {
+      stroke: #a0aec0;
+      stroke-width: 1.2;
+    }
+
+    .grid {
+      stroke: #e2e8f0;
+      stroke-width: 1;
+    }
+
+    .bar {
+      transition: opacity 160ms ease, transform 160ms ease;
+      transform-origin: bottom;
+    }
+
+    .bar:hover {
+      opacity: 0.78;
+      transform: scaleY(1.025);
+    }
+
+    .chart-label {
+      fill: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .chart-value {
+      fill: var(--ink);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .annotation {
+      fill: #ffffff;
+      stroke: rgba(29, 36, 48, 0.08);
+      stroke-width: 1;
+    }
+
+    .annotation-text {
+      fill: var(--ink);
+      font-size: 12px;
+      font-weight: 720;
+    }
+
+    .rubric {
+      overflow: hidden;
+    }
+
+    .rubric h2 {
+      padding: 22px 22px 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      min-width: 680px;
+    }
+
+    th,
+    td {
+      text-align: left;
+      vertical-align: top;
+      padding: 16px 22px;
+      border-top: 1px solid var(--line);
+      font-size: 0.94rem;
+      line-height: 1.5;
+    }
+
+    th {
+      color: var(--muted);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      background: #f8fafc;
+    }
+
+    .score {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 32px;
+      border-radius: 8px;
+      color: #fff;
+      font-weight: 800;
+      background: var(--blue);
+    }
+
+    .score.warn {
+      background: var(--yellow);
+    }
+
+    .score.good {
+      background: var(--green);
+    }
+
+    footer {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto 28px;
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 860px) {
+      .overview {
+        grid-template-columns: 1fr;
+      }
+
+      .chart-head {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .metric-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nav {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 14px 0;
+      }
+
+      .status-pill {
+        white-space: normal;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav">
+      <div class="brand">
+        <div class="mark" aria-hidden="true">A2</div>
+        <div>
+          <h1>Visualisation Critique</h1>
+          <p class="subhead">Data visualisation assessment page</p>
+        </div>
+      </div>
+      <div class="status-pill">Ready to run locally</div>
+    </div>
+  </header>
+
+  <main>
+    <section class="overview" aria-label="Critique overview">
+      <div class="intro">
+        <div>
+          <h2>A clear critique starts with evidence.</h2>
+          <p>
+            This page gives you a working base for your A2 critique: a headline judgement,
+            specific findings, a comparative visual, and a simple scoring table. Replace the
+            sample copy with your chosen visualisation analysis.
+          </p>
+        </div>
+
+        <div class="metric-grid" aria-label="Summary metrics">
+          <div class="metric">
+            <strong>3</strong>
+            <span>main critique findings</span>
+          </div>
+          <div class="metric">
+            <strong>5</strong>
+            <span>rubric categories</span>
+          </div>
+          <div class="metric">
+            <strong>1</strong>
+            <span>comparison chart</span>
+          </div>
+        </div>
+      </div>
+
+      <aside class="panel" aria-label="Key findings">
+        <h2>Key Findings</h2>
+
+        <article class="finding">
+          <div class="badge red">1</div>
+          <div>
+            <h3>Message hierarchy needs a sharper lead</h3>
+            <p>The audience should understand the main takeaway before they inspect the supporting details.</p>
+          </div>
+        </article>
+
+        <article class="finding">
+          <div class="badge">2</div>
+          <div>
+            <h3>Encoding choices are partly effective</h3>
+            <p>Position and length carry most values well, but colour is doing more work than it needs to.</p>
+          </div>
+        </article>
+
+        <article class="finding">
+          <div class="badge green">3</div>
+          <div>
+            <h3>Context improves trust</h3>
+            <p>Brief notes on source, timeframe, and limitations help the viewer interpret the pattern responsibly.</p>
+          </div>
+        </article>
+      </aside>
+    </section>
+
+    <section class="chart-panel" aria-label="Comparison chart">
+      <div class="chart-head">
+        <div>
+          <h2>Critique Score Comparison</h2>
+          <p>Sample scores compare the original visualisation with an improved version across common critique criteria.</p>
+        </div>
+        <div class="segmented" aria-label="Chart mode">
+          <button type="button" data-mode="original" aria-pressed="true">Original</button>
+          <button type="button" data-mode="improved" aria-pressed="false">Improved</button>
+        </div>
+      </div>
+
+      <div class="viz-wrap">
+        <svg viewBox="0 0 900 460" role="img" aria-labelledby="chart-title chart-desc">
+          <title id="chart-title">Critique scores by category</title>
+          <desc id="chart-desc">Bar chart comparing five critique categories on a zero to ten scale.</desc>
+          <line class="grid" x1="110" x2="835" y1="354" y2="354"></line>
+          <line class="grid" x1="110" x2="835" y1="290" y2="290"></line>
+          <line class="grid" x1="110" x2="835" y1="226" y2="226"></line>
+          <line class="grid" x1="110" x2="835" y1="162" y2="162"></line>
+          <line class="grid" x1="110" x2="835" y1="98" y2="98"></line>
+          <line class="axis" x1="110" x2="835" y1="354" y2="354"></line>
+          <line class="axis" x1="110" x2="110" y1="70" y2="354"></line>
+
+          <text class="chart-label" x="80" y="358">0</text>
+          <text class="chart-label" x="80" y="294">2.5</text>
+          <text class="chart-label" x="80" y="230">5</text>
+          <text class="chart-label" x="80" y="166">7.5</text>
+          <text class="chart-label" x="80" y="102">10</text>
+
+          <g id="bars"></g>
+
+          <rect class="annotation" x="596" y="48" width="238" height="56" rx="8"></rect>
+          <text class="annotation-text" x="612" y="70">Toggle the score view</text>
+          <text class="chart-label" x="612" y="90">The chart updates without any libraries.</text>
+        </svg>
+      </div>
+    </section>
+
+    <section class="rubric" aria-label="Rubric table">
+      <h2>Assessment Notes</h2>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Criterion</th>
+              <th>Critique Point</th>
+              <th>Action</th>
+              <th>Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Purpose</td>
+              <td>Main insight is present but could be placed earlier.</td>
+              <td>Move the headline takeaway above supporting details.</td>
+              <td><span class="score warn">6</span></td>
+            </tr>
+            <tr>
+              <td>Data</td>
+              <td>Source and date range need to be easier to find.</td>
+              <td>Add a concise source note under the chart.</td>
+              <td><span class="score">7</span></td>
+            </tr>
+            <tr>
+              <td>Encoding</td>
+              <td>Position and length are clear, while colour needs restraint.</td>
+              <td>Reserve colour for emphasis instead of every category.</td>
+              <td><span class="score good">8</span></td>
+            </tr>
+            <tr>
+              <td>Accessibility</td>
+              <td>Labels work, but contrast should be checked for smaller text.</td>
+              <td>Use stronger text contrast and avoid colour-only meaning.</td>
+              <td><span class="score">7</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Built as a single-file HTML page so it can open directly in a browser or through a local server.
+  </footer>
+
+  <script>
+    const categories = ["Purpose", "Data", "Encoding", "Accessibility", "Narrative"];
+    const scores = {
+      original: [6, 7, 5, 6, 5],
+      improved: [8, 8, 8, 9, 8]
+    };
+    const palette = ["#2b6cb0", "#2f855a", "#c05621", "#267d83", "#805ad5"];
+    const barsGroup = document.querySelector("#bars");
+    const buttons = document.querySelectorAll("[data-mode]");
+
+    function drawBars(mode) {
+      const values = scores[mode];
+      const maxScore = 10;
+      const chartBottom = 354;
+      const chartHeight = 256;
+      const barWidth = 82;
+      const gap = 54;
+      const startX = 142;
+
+      barsGroup.innerHTML = values.map((value, index) => {
+        const height = (value / maxScore) * chartHeight;
+        const x = startX + index * (barWidth + gap);
+        const y = chartBottom - height;
+        const category = categories[index];
+        const color = palette[index];
+
+        return `
+          <g>
+            <rect class="bar" x="${x}" y="${y}" width="${barWidth}" height="${height}" rx="8" fill="${color}">
+              <title>${category}: ${value}/10</title>
+            </rect>
+            <text class="chart-value" x="${x + barWidth / 2}" y="${y - 12}" text-anchor="middle">${value}/10</text>
+            <text class="chart-label" x="${x + barWidth / 2}" y="390" text-anchor="middle">${category}</text>
+          </g>
+        `;
+      }).join("");
+    }
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const mode = button.dataset.mode;
+        buttons.forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+        drawBars(mode);
+      });
+    });
+
+    drawBars("original");
+  </script>
+</body>
+</html>
