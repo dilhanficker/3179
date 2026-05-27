@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Australia's AI Moment — Data Visualisation 2025</title>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/vega@5.28.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@5.20.1"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@6.25.0"></script>
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy: #0F172A;
+  --blue: #2563EB;
+  --blue-light: #DBEAFE;
+  --amber: #F59E0B;
+  --amber-light: #FEF3C7;
+  --green: #10B981;
+  --green-light: #D1FAE5;
+  --text: #1E293B;
+  --muted: #64748B;
+  --border: #E2E8F0;
+  --bg: #F8FAFC;
+  --white: #ffffff;
+  --section-gap: 80px;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+  font-size: 16px;
+}
+
+/* ── HERO ── */
+.hero {
+  background: var(--navy);
+  color: white;
+  padding: 72px 0 64px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -120px; right: -120px;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(37,99,235,0.3) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -80px; left: -80px;
+  width: 350px; height: 350px;
+  background: radial-gradient(circle, rgba(245,158,11,0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 28px;
+}
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 20px;
+}
+.hero-eyebrow::before {
+  content: '';
+  display: block;
+  width: 24px; height: 2px;
+  background: var(--amber);
+}
+.hero h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  line-height: 1.1;
+  color: white;
+  margin-bottom: 20px;
+  max-width: 700px;
+}
+.hero h1 em {
+  font-style: italic;
+  color: #93C5FD;
+}
+.hero-sub {
+  font-size: 1.05rem;
+  color: #94A3B8;
+  max-width: 580px;
+  line-height: 1.7;
+  margin-bottom: 36px;
+}
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  max-width: 720px;
+}
+.hero-stat {
+  background: rgba(255,255,255,0.04);
+  padding: 20px 18px;
+  transition: background .2s;
+}
+.hero-stat:hover { background: rgba(255,255,255,0.08); }
+.stat-label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #64748B;
+  margin-bottom: 6px;
+}
+.stat-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: white;
+  line-height: 1;
+}
+.stat-note {
+  font-size: 11px;
+  color: #64748B;
+  margin-top: 4px;
+}
+.stat-value.amber { color: var(--amber); }
+.stat-value.green { color: #34D399; }
+
+/* ── SECTIONS ── */
+.section {
+  padding: var(--section-gap) 0;
+}
+.section:nth-child(even) { background: var(--white); }
+.section-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 10px;
+}
+.section-eyebrow.amber { color: var(--amber); }
+.section-eyebrow.green { color: var(--green); }
+.section h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  color: var(--navy);
+  margin-bottom: 14px;
+  line-height: 1.2;
+}
+.section-lead {
+  font-size: 1.05rem;
+  color: var(--muted);
+  max-width: 680px;
+  line-height: 1.75;
+  margin-bottom: 36px;
+}
+
+/* ── CALLOUT BOXES ── */
+.callout {
+  border-left: 4px solid var(--blue);
+  background: var(--blue-light);
+  padding: 16px 20px;
+  border-radius: 0 8px 8px 0;
+  margin: 28px 0;
+  font-size: 0.95rem;
+  color: #1E40AF;
+  line-height: 1.65;
+}
+.callout.amber {
+  border-color: var(--amber);
+  background: var(--amber-light);
+  color: #92400E;
+}
+.callout.green {
+  border-color: var(--green);
+  background: var(--green-light);
+  color: #065F46;
+}
+.callout strong { font-weight: 600; }
+
+/* ── CHART CONTAINERS ── */
+.chart-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 28px 24px 20px;
+  margin-bottom: 28px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.section:nth-child(even) .chart-card {
+  background: var(--bg);
+}
+.chart-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+.chart-source {
+  font-size: 11px;
+  color: #94A3B8;
+  margin-bottom: 18px;
+}
+.chart-source a {
+  color: #94A3B8;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ── GRID LAYOUTS ── */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+.two-col-wide {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 24px;
+}
+
+/* ── INSIGHT PILLS ── */
+.insight-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+.insight-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--blue-light);
+  color: #1E40AF;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 20px;
+}
+.insight-pill::before {
+  content: '↑';
+  font-size: 11px;
+}
+.insight-pill.amber { background: var(--amber-light); color: #92400E; }
+.insight-pill.amber::before { content: '!'; }
+.insight-pill.green { background: var(--green-light); color: #065F46; }
+.insight-pill.green::before { content: '→'; }
+
+/* ── DIVIDER ── */
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 0;
+}
+
+/* ── LEGEND MANUAL ── */
+.manual-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 12px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.legend-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.legend-line {
+  width: 24px; height: 3px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+.legend-dash {
+  width: 24px; height: 0;
+  border-top: 3px dashed;
+  flex-shrink: 0;
+}
+
+/* ── NARRATIVE PROSE ── */
+.prose {
+  font-size: 0.98rem;
+  color: var(--text);
+  line-height: 1.8;
+  max-width: 720px;
+  margin-bottom: 28px;
+}
+.prose strong { font-weight: 600; color: var(--navy); }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--navy);
+  color: #64748B;
+  padding: 40px 0;
+  font-size: 12.5px;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 32px;
+}
+footer h4 {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #94A3B8;
+  margin-bottom: 10px;
+}
+footer a { color: #64748B; text-decoration: underline; text-underline-offset: 2px; }
+footer a:hover { color: #94A3B8; }
+.footer-sources li { margin-bottom: 5px; list-style: none; }
+.ai-notice {
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  color: #475569;
+  font-size: 11.5px;
+  line-height: 1.6;
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width: 640px) {
+  .hero-stats { grid-template-columns: 1fr 1fr; }
+  .two-col, .two-col-wide { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+}
+
+/* ── VEGA EMBED TWEAKS ── */
+.vega-embed .chart-wrapper { width: 100% !important; }
+.vega-embed details { display: none; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════
+     HERO
+════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-eyebrow">Data Visualisation 2 · 2025</div>
+    <h1>Australia's <em>AI Moment</em>:<br>Opportunity, Gap, and the Road Ahead</h1>
+    <p class="hero-sub">
+      Australia is racing to adopt artificial intelligence — but lagging in the investment and skilled workforce needed to lead. This visualisation traces Australia's AI journey from industry-by-industry adoption, through global investment rankings, to the dimensions where we must accelerate.
+    </p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="stat-label">Enterprise adoption</div>
+        <div class="stat-value amber">77%</div>
+        <div class="stat-note">AU firms using AI · 2024</div>
+      </div>
+      <div class="hero-stat">
+        <div class="stat-label">Global investment rank</div>
+        <div class="stat-value">8th</div>
+        <div class="stat-note">of 100+ countries · 2024</div>
+      </div>
+      <div class="hero-stat">
+        <div class="stat-label">AU market CAGR</div>
+        <div class="stat-value green">26%</div>
+        <div class="stat-note">Projected to 2028</div>
+      </div>
+      <div class="hero-stat">
+        <div class="stat-label">Skill gap</div>
+        <div class="stat-value amber">39pt</div>
+        <div class="stat-note">Below USA on AI talent</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     SECTION 1 — DOMESTIC ADOPTION
+════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="section-eyebrow">Chapter 1 · Domestic adoption</div>
+    <h2>How quickly are Australian businesses embracing AI?</h2>
+    <p class="section-lead">
+      From barely one-in-five organisations in 2017, AI use in Australia has surged to over three-quarters by 2024 — a trajectory sharply accelerated by two inflection points: the disruption of COVID-19 and the 2022 release of ChatGPT.
+    </p>
+
+    <div class="chart-card">
+      <div class="chart-title">Australian enterprise AI adoption rate, 2017–2024</div>
+      <div class="chart-source">Source: KPMG Australia AI Pulse Survey 2024 · <a href="https://kpmg.com/au" target="_blank">kpmg.com/au</a></div>
+      <div id="chart-adoption"></div>
+    </div>
+
+    <div class="callout">
+      <strong>Two turning points.</strong> The COVID-19 pandemic (2020) forced accelerated digital transformation across Australian industry, pushing adoption from 34% to 46% in two years. The ChatGPT launch in late 2022 triggered a second surge — Australian businesses jumped from 55% to 67% adoption in a single year, the fastest rate of growth in the dataset.
+    </div>
+
+    <p class="prose">
+      Yet adoption alone does not tell the whole story. Which industries are leading, and which are being left behind? The chart below shows that <strong>Financial Services and Technology</strong> are well ahead — adoption above 78% — while Agriculture (27%) and Government (38%) are at risk of missing the productivity gains their private-sector peers are already capturing.
+    </p>
+
+    <div class="chart-card">
+      <div class="chart-title">AI adoption by industry — Australian enterprises, 2024 (%)</div>
+      <div class="chart-source">Source: KPMG Australia AI Pulse Survey 2024 · <a href="https://kpmg.com/au" target="_blank">kpmg.com/au</a></div>
+      <div id="chart-lollipop"></div>
+    </div>
+
+    <div class="insight-row">
+      <span class="insight-pill">Financial Services leads at 82%</span>
+      <span class="insight-pill amber">Agriculture trails at 27%</span>
+      <span class="insight-pill green">55-point gap between top and bottom industries</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     SECTION 2 — THE MAP
+════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="section-eyebrow amber">Chapter 2 · Geography of digital talent</div>
+    <h2>Where are Australia's ICT workers concentrated?</h2>
+    <p class="section-lead">
+      AI capability is not evenly distributed across Australia. The density of ICT professionals — the workforce most likely to build, deploy, and govern AI systems — varies sharply by state and territory. This uneven geography shapes which parts of the country benefit from AI first.
+    </p>
+
+    <div class="chart-card">
+      <div class="chart-title">ICT professionals as share of total workforce, by state and territory (2023–24)</div>
+      <div class="chart-source">Source: Australian Bureau of Statistics — Labour Force Survey 2023–24 · <a href="https://abs.gov.au" target="_blank">abs.gov.au</a></div>
+      <div id="chart-map"></div>
+    </div>
+
+    <div class="callout amber">
+      <strong>The ACT stands apart.</strong> The Australian Capital Territory records 6.1% of its workforce in ICT roles — more than four times the Northern Territory's 1.5%. This reflects the concentration of federal government technology agencies in Canberra. New South Wales (4.2%) and Victoria (3.9%) lead among the larger states, anchored by Sydney and Melbourne's technology sectors. Regional and northern Australia face the most acute digital skill shortages.
+    </div>
+
+    <p class="prose">
+      The geographic concentration of ICT talent in Sydney, Melbourne, and Canberra means that AI-driven economic gains are likely to accrue disproportionately to Australia's eastern seaboard — at least in the near term. Addressing this spatial inequality will be central to any genuinely national AI strategy.
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     SECTION 3 — MARKET SIZE
+════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="section-eyebrow green">Chapter 3 · Australia's AI market</div>
+    <h2>A rapidly growing domestic market — but still a fraction of global scale</h2>
+    <p class="section-lead">
+      Australia's AI market has grown more than fourfold since 2020. Forecast to reach AUD 17.5 billion by 2028, it represents one of the fastest-growing technology segments in the Australian economy — though this remains a very small share of the global market.
+    </p>
+
+    <div class="two-col-wide">
+      <div class="chart-card">
+        <div class="chart-title">Australian AI market size — actual and forecast, 2020–2028 (AUD billions)</div>
+        <div class="chart-source">Source: IBRS / Gartner Australia · 2025</div>
+        <div class="manual-legend">
+          <span class="legend-item"><span class="legend-line" style="background:#10B981"></span>Actual</span>
+          <span class="legend-item"><span class="legend-dash" style="border-color:#10B981"></span>Forecast</span>
+        </div>
+        <div id="chart-market"></div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-title">Global AI market by segment, 2025 (USD billions)</div>
+        <div class="chart-source">Source: IDC Worldwide AI Spending Guide 2025 · <a href="https://idc.com" target="_blank">idc.com</a></div>
+        <div id="chart-donut"></div>
+      </div>
+    </div>
+
+    <div class="callout green">
+      <strong>Software dominates globally (56%).</strong> Software leads the global AI market at USD 139B, ahead of Hardware and Services (each USD 58.6B). Generative AI platforms — barely a category three years ago — already represent USD 44B. For Australian businesses, this market composition indicates where investment decisions will have the highest impact.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     SECTION 4 — GLOBAL INVESTMENT
+════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="section-eyebrow">Chapter 4 · Global investment context</div>
+    <h2>Where does Australia rank in the global AI investment race?</h2>
+    <p class="section-lead">
+      Private investment — the fuel of AI innovation — flows overwhelmingly to the United States. Australia's USD 1.8 billion in 2024 places it 8th globally, ahead of South Korea and Singapore, but dwarfed by the US at USD 109 billion. Understanding Australia's position requires looking at both the absolute numbers and the trajectory over time.
+    </p>
+
+    <div class="chart-card">
+      <div class="chart-title">Private AI investment by country, 2024 (USD billions) — Australia highlighted in amber</div>
+      <div class="chart-source">Source: Stanford HAI AI Index Report 2025 · <a href="https://aiindex.stanford.edu" target="_blank">aiindex.stanford.edu</a></div>
+      <div id="chart-investment"></div>
+    </div>
+
+    <p class="prose">
+      The chart below shows how investment has evolved from 2021 to 2024. A <strong>square-root colour scale</strong> is used deliberately: without it, the USA's dominance would render every other country's bar nearly invisible. Notice how Australia and most European nations appear at similar low intensities — the gap is structural, not cyclical.
+    </p>
+
+    <div class="chart-card">
+      <div class="chart-title">AI private investment by country and year, 2021–2024 (USD billions)</div>
+      <div class="chart-source">Source: Stanford HAI AI Index Report 2025 · <a href="https://aiindex.stanford.edu" target="_blank">aiindex.stanford.edu</a></div>
+      <p style="font-size:12px;color:#94A3B8;margin-bottom:14px;">Colour uses a square-root scale to prevent the USA from overwhelming detail in other countries.</p>
+      <div id="chart-heatmap"></div>
+    </div>
+
+    <div class="callout">
+      <strong>Australia's investment is growing — but slowly.</strong> Australia increased from USD 0.9B (2021) to USD 1.8B (2024), a 100% rise. However, the USA grew from USD 110B to USD 109B over the same period (a brief dip before the 2025 surge). The relative gap has not closed — and without a step change in both public and private AI investment, Australia risks becoming a consumer of AI rather than a producer.
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">Global hyperscaler AI capital expenditure, 2022–2026 (USD billions)</div>
+      <div class="chart-source">Source: Goldman Sachs Equity Research 2025</div>
+      <p style="font-size:12px;color:#94A3B8;margin-bottom:14px;">2026 value is a forecast (lighter bar). Hyperscalers = Amazon, Microsoft, Google, Meta combined.</p>
+      <div id="chart-capex"></div>
+    </div>
+
+    <div class="callout amber">
+      <strong>The infrastructure race is accelerating.</strong> Global hyperscalers — Amazon, Microsoft, Google, and Meta — are on track to spend USD 430 billion on AI infrastructure in 2026 alone. This spending dwarfs Australia's entire annual AI market. For Australian organisations, this means world-class AI infrastructure will remain accessible via cloud — but sovereign capability requires domestic investment in talent and data.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     SECTION 5 — USE CASES & GROWTH
+════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="section-eyebrow green">Chapter 5 · Where is AI growing fastest?</div>
+    <h2>The highest-growth use cases — and what they mean for Australia</h2>
+    <p class="section-lead">
+      Not all AI applications are growing at the same rate. Claims processing, fraud detection, and code generation are expanding at 30%+ annually — sectors where Australian financial services and government agencies are already significant players.
+    </p>
+
+    <div class="two-col">
+      <div class="chart-card">
+        <div class="chart-title">Fastest-growing AI use cases — 5-year CAGR (%)</div>
+        <div class="chart-source">Source: IDC Worldwide AI Spending Guide 2025 · <a href="https://idc.com" target="_blank">idc.com</a></div>
+        <div id="chart-cagr"></div>
+      </div>
+
+      <div>
+        <div class="chart-card">
+          <div class="chart-title">AI use case landscape — market size vs. growth rate</div>
+          <div class="chart-source">Source: IDC Worldwide AI Spending Guide 2025</div>
+          <p style="font-size:12px;color:#94A3B8;margin-bottom:10px;">Bubble size = private investment received. Hover for details.</p>
+          <div id="chart-bubble"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout green">
+      <strong>Finance AI and Healthcare AI occupy the high-value quadrant.</strong> The bubble chart shows that Finance AI and Healthcare AI sit in the top-right quadrant — large current market AND high future growth. Both sectors are significant in Australia's economy. Code generation and Legal AI are smaller today but growing rapidly, suggesting near-term opportunities for Australian technology firms.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     SECTION 6 — READINESS COMPARISON
+════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="section-eyebrow amber">Chapter 6 · AI readiness — Australia vs. the world</div>
+    <h2>Where does Australia genuinely stand — and where must it improve?</h2>
+    <p class="section-lead">
+      The Oxford Insights Government AI Readiness Index 2025 scores countries across five dimensions. Australia performs respectably on digital infrastructure and data governance, but the gaps in AI talent and private investment are substantial — and widening relative to Singapore and the USA.
+    </p>
+
+    <div class="chart-card">
+      <div class="chart-title">AI readiness by dimension — Australia vs. comparable nations (score: 0–100)</div>
+      <div class="chart-source">Source: Oxford Insights Government AI Readiness Index 2025 · <a href="https://oxfordinsights.com" target="_blank">oxfordinsights.com</a></div>
+      <div class="manual-legend">
+        <span class="legend-item"><span class="legend-dot" style="background:#F59E0B"></span>Australia</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#2563EB"></span>USA</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#10B981"></span>UK</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#7C3AED"></span>Singapore</span>
+      </div>
+      <div id="chart-dumbbell"></div>
+    </div>
+
+    <div class="callout amber">
+      <strong>Private investment is Australia's most critical gap.</strong> Australia scores just 38 out of 100 on private investment — 61 points below the USA and 17 below Singapore. The dumbbell chart makes this stark: the bar for Private Investment is the longest, meaning the spread between Australia and the leaders is the widest of any dimension. Digital infrastructure (78) and data governance (68) are relative strengths. AI talent and skills (61) is the next most urgent priority.
+    </div>
+
+    <p class="prose">
+      The good news: data governance and digital infrastructure are areas where Australia punches closer to its weight. The National AI Strategy and existing ASD/ACS frameworks provide a foundation. The challenge is converting strategic intent into funded, scalable programs that attract and retain AI talent domestically.
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════ -->
+<hr class="divider">
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h4>About this visualisation</h4>
+        <p>Created by Dilhan Ficker · Monash University, FIT3179 Data Visualisation 2 · May 2025. All data is publicly available from authoritative sources listed below. Designed for the average informed Australian adult.</p>
+      </div>
+      <div>
+        <h4>Data sources</h4>
+        <ul class="footer-sources">
+          <li><a href="https://abs.gov.au" target="_blank">ABS Labour Force Survey 2023–24</a></li>
+          <li><a href="https://aiindex.stanford.edu" target="_blank">Stanford HAI AI Index 2025</a></li>
+          <li><a href="https://kpmg.com/au" target="_blank">KPMG AU AI Pulse Survey 2024</a></li>
+          <li><a href="https://oxfordinsights.com" target="_blank">Oxford Insights AI Readiness Index 2025</a></li>
+          <li><a href="https://idc.com" target="_blank">IDC AI Spending Guide 2025</a></li>
+          <li>Goldman Sachs Equity Research 2025</li>
+          <li>IBRS / Gartner Australia 2025</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Repository</h4>
+        <p>All Vega-Lite JSON specifications are available in the <a href="https://github.com/dilhanficker/3179" target="_blank">GitHub repository</a> under <code>specs/</code>.</p>
+        <p style="margin-top:10px;">© 2025 Dilhan Ficker. Visualisation released for academic purposes.</p>
+      </div>
+    </div>
+
+    <div class="ai-notice">
+      <strong style="color:#64748B;">AI tools disclosure:</strong> Claude (Anthropic) was used to assist with code structuring and Vega-Lite specification debugging. All data values, narrative text, chart design decisions, and domain analysis are the author's own work. Charts cannot be reproduced by standard AI chart builders due to the use of custom idioms (lollipop, dumbbell, annotated bubble) and multi-layer Vega-Lite compositions.
+    </div>
+  </div>
+</footer>
+
+<script>
+const VEGA_CONFIG = {
+  background: "transparent",
+  font: "DM Sans, sans-serif",
+  view: { stroke: null }
+};
+
+const EMBED_OPT = {
+  renderer: "svg",
+  actions: false,
+  config: VEGA_CONFIG
+};
+
+/* ── CHART 1: Adoption rate line ── */
+vegaEmbed("#chart-adoption", "specs/adoption_rate.json", EMBED_OPT).catch(console.error);
+
+/* ── CHART 2: Industry lollipop ── */
+vegaEmbed("#chart-lollipop", "specs/industry_lollipop.json", EMBED_OPT).catch(console.error);
+
+/* ── CHART 3: Australia choropleth map ── */
+vegaEmbed("#chart-map", "specs/australia_map.json", EMBED_OPT).catch(console.error);
+
+/* ── CHART 4: Market size area + forecast ── */
+vegaEmbed("#chart-market", "specs/au_market_area.json", EMBED_OPT).catch(console.error);
+
+/* ── CHART 5: Global segments donut ── */
+vegaEmbed("#chart-donut", "specs/market_segments_donut.json", EMBED_OPT).catch(console.error);
+
+/* ── CHART 6: Investment bar ── */
+vegaEmbed("#chart-investment", "specs/investment_bar.json", EMBED_OPT).catch(console.error);
+
+/* ── CHART 7: Heatmap ── */
+vegaEmbed("#chart-heatmap", "specs/investment_heatmap.json", EMBED_OPT).catch(console.error);
+
+/* ── CHART 8: Hyperscaler capex ── */
+vegaEmbed("#chart-capex", "specs/hyperscaler_capex.json", EMBED_OPT).catch(console.error);
+
+/* ── CHART 9: Use case CAGR ── */
+vegaEmbed("#chart-cagr", "specs/use_case_cagr.json", EMBED_OPT).catch(console.error);
+
+/* ── CHART 10: Bubble chart ── */
+vegaEmbed("#chart-bubble", "specs/usecase_bubble.json", EMBED_OPT).catch(console.error);
+
+/* ── CHART 11: Dumbbell readiness ── */
+vegaEmbed("#chart-dumbbell", "specs/readiness_dumbbell.json", EMBED_OPT).catch(console.error);
+</script>
+</body>
+</html>
