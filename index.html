@@ -41,102 +41,71 @@ body {
 .hero {
   background: var(--navy);
   color: white;
-  padding: 72px 0 64px;
-  position: relative;
-  overflow: hidden;
-}
-.hero::before {
-  content: '';
-  position: absolute;
-  top: -120px; right: -120px;
-  width: 500px; height: 500px;
-  background: radial-gradient(circle, rgba(37,99,235,0.3) 0%, transparent 70%);
-  pointer-events: none;
-}
-.hero::after {
-  content: '';
-  position: absolute;
-  bottom: -80px; left: -80px;
-  width: 350px; height: 350px;
-  background: radial-gradient(circle, rgba(245,158,11,0.15) 0%, transparent 70%);
-  pointer-events: none;
+  padding: 64px 0 56px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
 }
 .container {
   max-width: 900px;
   margin: 0 auto;
   padding: 0 28px;
 }
-.hero-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 12px;
+.hero-tag {
+  font-size: 11px;
   font-weight: 500;
-  letter-spacing: .1em;
+  letter-spacing: .12em;
   text-transform: uppercase;
-  color: var(--amber);
-  margin-bottom: 20px;
-}
-.hero-eyebrow::before {
-  content: '';
-  display: block;
-  width: 24px; height: 2px;
-  background: var(--amber);
+  color: #475569;
+  margin-bottom: 22px;
 }
 .hero h1 {
   font-family: 'DM Serif Display', serif;
-  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  font-size: clamp(2rem, 4.5vw, 3rem);
   line-height: 1.1;
   color: white;
-  margin-bottom: 20px;
-  max-width: 700px;
-}
-.hero h1 em {
-  font-style: italic;
-  color: #93C5FD;
+  margin-bottom: 18px;
+  font-weight: 400;
 }
 .hero-sub {
-  font-size: 1.05rem;
+  font-size: 1rem;
   color: #94A3B8;
-  max-width: 580px;
-  line-height: 1.7;
-  margin-bottom: 36px;
+  max-width: 560px;
+  line-height: 1.75;
+  margin-bottom: 32px;
+}
+.hero-rule {
+  width: 40px;
+  height: 1px;
+  background: #334155;
+  margin-bottom: 32px;
 }
 .hero-stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1px;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 12px;
-  overflow: hidden;
-  max-width: 720px;
+  display: flex;
+  gap: 48px;
+  flex-wrap: wrap;
 }
 .hero-stat {
-  background: rgba(255,255,255,0.04);
-  padding: 20px 18px;
-  transition: background .2s;
-}
-.hero-stat:hover { background: rgba(255,255,255,0.08); }
-.stat-label {
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: #64748B;
-  margin-bottom: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 .stat-value {
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   font-weight: 700;
   color: white;
   line-height: 1;
+  letter-spacing: -0.02em;
 }
-.stat-note {
-  font-size: 11px;
+.stat-value sup {
+  font-size: 0.7em;
+  font-weight: 600;
+}
+.stat-label {
+  font-size: 12px;
   color: #64748B;
-  margin-top: 4px;
+  max-width: 160px;
+  line-height: 1.4;
 }
+.stat-note { display: none; }
 .stat-value.amber { color: var(--amber); }
 .stat-value.green { color: #34D399; }
 
@@ -201,11 +170,6 @@ body {
   padding: 28px 24px 20px;
   margin-bottom: 28px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-  width: 100%;
-}
-.chart-card > div[id^="chart-"] {
-  width: 100%;
-  min-height: 10px;
 }
 .section:nth-child(even) .chart-card {
   background: var(--bg);
@@ -356,41 +320,29 @@ footer a:hover { color: #94A3B8; }
 .vega-embed { width: 100% !important; }
 .vega-embed .chart-wrapper { width: 100% !important; }
 .vega-embed details { display: none; }
-.vega-embed canvas, .vega-embed svg { width: 100% !important; }
 </style>
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════════
-     HERO
-════════════════════════════════════════════════ -->
+<!-- HERO -->
 <section class="hero">
   <div class="container">
-    <div class="hero-eyebrow">Data Visualisation 2 · 2025</div>
-    <h1>Australia's <em>AI Moment</em>:<br>Opportunity, Gap, and the Road Ahead</h1>
-    <p class="hero-sub">
-      Australia is racing to adopt artificial intelligence — but lagging in the investment and skilled workforce needed to lead. This visualisation traces Australia's AI journey from industry-by-industry adoption, through global investment rankings, to the dimensions where we must accelerate.
-    </p>
+    <div class="hero-tag">FIT3179 · Data Visualisation 2 · 2025</div>
+    <h1>Australia's AI Moment</h1>
+    <p class="hero-sub">Three-quarters of Australian businesses now use AI — yet the country ranks 8th globally in private investment and lags significantly on skilled talent. This story charts where Australia stands, who's ahead, and what it will take to close the gap.</p>
+    <div class="hero-rule"></div>
     <div class="hero-stats">
       <div class="hero-stat">
-        <div class="stat-label">Enterprise adoption</div>
-        <div class="stat-value amber">77%</div>
-        <div class="stat-note">AU firms using AI · 2024</div>
+        <span class="stat-value">77%</span>
+        <span class="stat-label">of AU enterprises using AI in 2024</span>
       </div>
       <div class="hero-stat">
-        <div class="stat-label">Global investment rank</div>
-        <div class="stat-value">8th</div>
-        <div class="stat-note">of 100+ countries · 2024</div>
+        <span class="stat-value">8<sup>th</sup></span>
+        <span class="stat-label">globally in private AI investment</span>
       </div>
       <div class="hero-stat">
-        <div class="stat-label">AU market CAGR</div>
-        <div class="stat-value green">26%</div>
-        <div class="stat-note">Projected to 2028</div>
-      </div>
-      <div class="hero-stat">
-        <div class="stat-label">Skill gap</div>
-        <div class="stat-value amber">39pt</div>
-        <div class="stat-note">Below USA on AI talent</div>
+        <span class="stat-value">$17.5B</span>
+        <span class="stat-label">AU market forecast by 2028</span>
       </div>
     </div>
   </div>
