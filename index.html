@@ -201,6 +201,11 @@ body {
   padding: 28px 24px 20px;
   margin-bottom: 28px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  width: 100%;
+}
+.chart-card > div[id^="chart-"] {
+  width: 100%;
+  min-height: 10px;
 }
 .section:nth-child(even) .chart-card {
   background: var(--bg);
@@ -348,8 +353,10 @@ footer a:hover { color: #94A3B8; }
 }
 
 /* ── VEGA EMBED TWEAKS ── */
+.vega-embed { width: 100% !important; }
 .vega-embed .chart-wrapper { width: 100% !important; }
 .vega-embed details { display: none; }
+.vega-embed canvas, .vega-embed svg { width: 100% !important; }
 </style>
 </head>
 <body>
@@ -648,6 +655,7 @@ const VEGA_CONFIG = {
 const EMBED_OPT = {
   renderer: "svg",
   actions: false,
+  width: "container",
   config: VEGA_CONFIG
 };
 
