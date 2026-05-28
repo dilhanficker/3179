@@ -1,0 +1,55 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "ICT professionals as share of workforce by Australian state/territory (ABS 2023-24)",
+  "width": "container",
+  "height": 380,
+  "projection": {"type": "mercator"},
+  "layer": [
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/tonywr71/GeoJson-Data/master/australian-states.json",
+        "format": {"type": "json", "property": "features"}
+      },
+      "transform": [
+        {
+          "lookup": "properties.STATE_NAME",
+          "from": {
+            "data": {
+              "values": [
+                {"state": "New South Wales", "ict_pct": 4.2, "ict_workers": 186000},
+                {"state": "Victoria", "ict_pct": 3.9, "ict_workers": 152000},
+                {"state": "Queensland", "ict_pct": 2.8, "ict_workers": 79000},
+                {"state": "Western Australia", "ict_pct": 2.6, "ict_workers": 52000},
+                {"state": "South Australia", "ict_pct": 2.4, "ict_workers": 36000},
+                {"state": "Tasmania", "ict_pct": 1.9, "ict_workers": 10000},
+                {"state": "Australian Capital Territory", "ict_pct": 6.1, "ict_workers": 21000},
+                {"state": "Northern Territory", "ict_pct": 1.5, "ict_workers": 3000}
+              ]
+            },
+            "key": "state",
+            "fields": ["ict_pct", "ict_workers"]
+          }
+        }
+      ],
+      "mark": {"type": "geoshape", "stroke": "#ffffff", "strokeWidth": 1.5},
+      "encoding": {
+        "color": {
+          "field": "ict_pct",
+          "type": "quantitative",
+          "scale": {"scheme": "blues", "domain": [1, 7]},
+          "legend": {"title": "ICT workers (% of workforce)", "titleFontSize": 11, "labelFontSize": 10, "gradientLength": 120}
+        },
+        "tooltip": [
+          {"field": "properties.STATE_NAME", "type": "nominal", "title": "State/Territory"},
+          {"field": "ict_pct", "type": "quantitative", "title": "ICT workforce share (%)", "format": ".1f"},
+          {"field": "ict_workers", "type": "quantitative", "title": "ICT workers (est.)", "format": ","}
+        ]
+      }
+    }
+  ],
+  "config": {
+    "background": "transparent",
+    "view": {"stroke": null},
+    "font": "DM Sans, sans-serif"
+  }
+}

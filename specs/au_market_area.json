@@ -1,0 +1,82 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Australian AI market size actual and forecast 2020-2028 (AUD billions) - IBRS/Gartner",
+  "width": "container",
+  "height": 260,
+  "layer": [
+    {
+      "data": {
+        "values": [
+          {"year": 2020, "value": 1.1, "type": "Actual"},
+          {"year": 2021, "value": 1.6, "type": "Actual"},
+          {"year": 2022, "value": 2.3, "type": "Actual"},
+          {"year": 2023, "value": 3.4, "type": "Actual"},
+          {"year": 2024, "value": 4.8, "type": "Actual"}
+        ]
+      },
+      "layer": [
+        {
+          "mark": {"type": "area", "opacity": 0.2, "color": "#10B981"},
+          "encoding": {
+            "x": {"field": "year", "type": "quantitative", "axis": {"format": "d", "title": null, "labelColor": "#6B7280", "gridColor": "#F3F4F6"}},
+            "y": {"field": "value", "type": "quantitative", "axis": {"title": "Market size (AUD billions)", "labelColor": "#6B7280", "gridColor": "#F3F4F6"}, "scale": {"domain": [0, 18]}}
+          }
+        },
+        {
+          "mark": {"type": "line", "strokeWidth": 2.5, "color": "#10B981"},
+          "encoding": {
+            "x": {"field": "year", "type": "quantitative"},
+            "y": {"field": "value", "type": "quantitative"}
+          }
+        },
+        {
+          "mark": {"type": "point", "filled": true, "size": 60, "color": "#10B981"},
+          "encoding": {
+            "x": {"field": "year", "type": "quantitative"},
+            "y": {"field": "value", "type": "quantitative"},
+            "tooltip": [
+              {"field": "year", "type": "quantitative", "title": "Year"},
+              {"field": "value", "type": "quantitative", "title": "Market size (AUD B)", "format": ".1f"},
+              {"field": "type", "type": "nominal", "title": "Type"}
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "data": {
+        "values": [
+          {"year": 2024, "value": 4.8, "type": "Forecast"},
+          {"year": 2025, "value": 6.8, "type": "Forecast"},
+          {"year": 2026, "value": 9.5, "type": "Forecast"},
+          {"year": 2027, "value": 13.1, "type": "Forecast"},
+          {"year": 2028, "value": 17.5, "type": "Forecast"}
+        ]
+      },
+      "mark": {"type": "line", "strokeWidth": 2.5, "strokeDash": [6, 4], "color": "#10B981"},
+      "encoding": {
+        "x": {"field": "year", "type": "quantitative"},
+        "y": {"field": "value", "type": "quantitative"},
+        "tooltip": [
+          {"field": "year", "type": "quantitative", "title": "Year"},
+          {"field": "value", "type": "quantitative", "title": "Market size (AUD B)", "format": ".1f"},
+          {"field": "type", "type": "nominal", "title": "Type"}
+        ]
+      }
+    },
+    {
+      "data": {"values": [{"year": 2024, "label": "Forecast →", "value": 7}]},
+      "mark": {"type": "text", "align": "left", "dx": 6, "fontSize": 11, "color": "#10B981", "fontStyle": "italic"},
+      "encoding": {
+        "x": {"field": "year", "type": "quantitative"},
+        "y": {"field": "value", "type": "quantitative"},
+        "text": {"field": "label"}
+      }
+    }
+  ],
+  "config": {
+    "background": "transparent",
+    "view": {"stroke": null},
+    "font": "DM Sans, sans-serif"
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "AI private investment by country and year 2021-2024 (USD billions) - Stanford HAI AI Index 2025",
+  "width": "container",
+  "height": 240,
+  "data": {
+    "values": [
+      {"country": "USA",       "year": "2021", "investment": 110.0},
+      {"country": "USA",       "year": "2022", "investment": 95.0},
+      {"country": "USA",       "year": "2023", "investment": 105.0},
+      {"country": "USA",       "year": "2024", "investment": 109.1},
+      {"country": "China",     "year": "2021", "investment": 17.0},
+      {"country": "China",     "year": "2022", "investment": 14.0},
+      {"country": "China",     "year": "2023", "investment": 11.0},
+      {"country": "China",     "year": "2024", "investment": 9.3},
+      {"country": "UK",        "year": "2021", "investment": 5.5},
+      {"country": "UK",        "year": "2022", "investment": 6.2},
+      {"country": "UK",        "year": "2023", "investment": 7.0},
+      {"country": "UK",        "year": "2024", "investment": 4.5},
+      {"country": "India",     "year": "2021", "investment": 2.0},
+      {"country": "India",     "year": "2022", "investment": 2.8},
+      {"country": "India",     "year": "2023", "investment": 3.5},
+      {"country": "India",     "year": "2024", "investment": 4.8},
+      {"country": "Germany",   "year": "2021", "investment": 2.5},
+      {"country": "Germany",   "year": "2022", "investment": 3.0},
+      {"country": "Germany",   "year": "2023", "investment": 3.6},
+      {"country": "Germany",   "year": "2024", "investment": 4.1},
+      {"country": "Australia", "year": "2021", "investment": 0.9},
+      {"country": "Australia", "year": "2022", "investment": 1.1},
+      {"country": "Australia", "year": "2023", "investment": 1.4},
+      {"country": "Australia", "year": "2024", "investment": 1.8}
+    ]
+  },
+  "transform": [
+    {"calculate": "sqrt(datum.investment)", "as": "inv_sqrt"}
+  ],
+  "mark": {"type": "rect", "cornerRadius": 3},
+  "encoding": {
+    "x": {
+      "field": "year",
+      "type": "ordinal",
+      "axis": {"title": null, "labelColor": "#374151", "labelFontSize": 12}
+    },
+    "y": {
+      "field": "country",
+      "type": "nominal",
+      "sort": ["-investment"],
+      "axis": {"title": null, "labelColor": "#374151", "labelFontSize": 12}
+    },
+    "color": {
+      "field": "inv_sqrt",
+      "type": "quantitative",
+      "scale": {"scheme": "blues"},
+      "legend": {"title": "Investment (sqrt scale)", "labelFontSize": 10, "titleFontSize": 11}
+    },
+    "tooltip": [
+      {"field": "country", "type": "nominal", "title": "Country"},
+      {"field": "year", "type": "ordinal", "title": "Year"},
+      {"field": "investment", "type": "quantitative", "title": "Investment (USD B)", "format": ".1f"}
+    ]
+  },
+  "config": {
+    "background": "transparent",
+    "view": {"stroke": null},
+    "font": "DM Sans, sans-serif"
+  }
+}

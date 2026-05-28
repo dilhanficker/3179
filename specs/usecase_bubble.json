@@ -1,0 +1,95 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "AI use case landscape: market size vs growth rate, bubble size = investment - IDC 2025",
+  "width": "container",
+  "height": 320,
+  "layer": [
+    {
+      "data": {"values": [{"x": 25, "y": 20}]},
+      "mark": {"type": "rule", "strokeDash": [4, 3], "color": "#D1D5DB", "strokeWidth": 1},
+      "encoding": {"x": {"field": "x", "type": "quantitative"}}
+    },
+    {
+      "data": {"values": [{"x": 0, "y": 25}]},
+      "mark": {"type": "rule", "strokeDash": [4, 3], "color": "#D1D5DB", "strokeWidth": 1},
+      "encoding": {"y": {"field": "y", "type": "quantitative"}}
+    },
+    {
+      "data": {"values": [
+        {"quadrant": "High growth, large market", "x": 35, "y": 35},
+        {"quadrant": "High growth, small market", "x": 8, "y": 35},
+        {"quadrant": "Mature, large market", "x": 35, "y": 12},
+        {"quadrant": "Niche & emerging", "x": 8, "y": 12}
+      ]},
+      "mark": {"type": "text", "fontSize": 10, "color": "#9CA3AF", "fontStyle": "italic"},
+      "encoding": {
+        "x": {"field": "x", "type": "quantitative", "scale": {"domain": [0, 50]}, "axis": {"title": "Market size (USD billions)", "labelColor": "#6B7280", "gridColor": "#F3F4F6"}},
+        "y": {"field": "y", "type": "quantitative", "scale": {"domain": [0, 45]}, "axis": {"title": "Growth rate (CAGR %)", "labelColor": "#6B7280", "gridColor": "#F3F4F6"}},
+        "text": {"field": "quadrant"}
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {"label": "Healthcare AI", "x": 38, "y": 27.3, "investment": 8.2},
+          {"label": "Finance AI",    "x": 44, "y": 31.2, "investment": 12.1},
+          {"label": "Code gen",      "x": 18, "y": 29.5, "investment": 6.4},
+          {"label": "Retail AI",     "x": 28, "y": 18.4, "investment": 5.3},
+          {"label": "Legal AI",      "x": 12, "y": 24.0, "investment": 3.1},
+          {"label": "Manufacturing", "x": 32, "y": 16.2, "investment": 4.8},
+          {"label": "Cust. service", "x": 22, "y": 24.1, "investment": 4.2},
+          {"label": "Cybersecurity", "x": 26, "y": 20.4, "investment": 5.5}
+        ]
+      },
+      "mark": {"type": "point", "filled": true, "opacity": 0.75, "strokeWidth": 1.5},
+      "encoding": {
+        "x": {"field": "x", "type": "quantitative"},
+        "y": {"field": "y", "type": "quantitative"},
+        "size": {
+          "field": "investment",
+          "type": "quantitative",
+          "scale": {"range": [100, 900]},
+          "legend": {"title": "Investment (USD B)", "labelFontSize": 10, "titleFontSize": 11}
+        },
+        "color": {
+          "field": "x",
+          "type": "quantitative",
+          "scale": {"scheme": "blues"},
+          "legend": null
+        },
+        "stroke": {"value": "#2563EB"},
+        "tooltip": [
+          {"field": "label", "type": "nominal", "title": "Use case"},
+          {"field": "x", "type": "quantitative", "title": "Market size (USD B)", "format": ".0f"},
+          {"field": "y", "type": "quantitative", "title": "CAGR (%)", "format": ".1f"},
+          {"field": "investment", "type": "quantitative", "title": "Investment (USD B)", "format": ".1f"}
+        ]
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {"label": "Healthcare AI", "x": 38, "y": 27.3},
+          {"label": "Finance AI",    "x": 44, "y": 31.2},
+          {"label": "Code gen",      "x": 18, "y": 29.5},
+          {"label": "Retail AI",     "x": 28, "y": 18.4},
+          {"label": "Legal AI",      "x": 12, "y": 24.0},
+          {"label": "Manufacturing", "x": 32, "y": 16.2},
+          {"label": "Cust. service", "x": 22, "y": 24.1},
+          {"label": "Cybersecurity", "x": 26, "y": 20.4}
+        ]
+      },
+      "mark": {"type": "text", "dy": -14, "fontSize": 11, "color": "#374151"},
+      "encoding": {
+        "x": {"field": "x", "type": "quantitative"},
+        "y": {"field": "y", "type": "quantitative"},
+        "text": {"field": "label"}
+      }
+    }
+  ],
+  "config": {
+    "background": "transparent",
+    "view": {"stroke": null},
+    "font": "DM Sans, sans-serif"
+  }
+}
