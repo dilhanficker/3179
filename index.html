@@ -6,9 +6,9 @@
 <title>Australia's AI Moment — Data Visualisation 2025</title>
 
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/vega@5.28.0"></script>
-<script src="https://cdn.jsdelivr.net/npm/vega-lite@5.20.1"></script>
-<script src="https://cdn.jsdelivr.net/npm/vega-embed@6.25.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega@5.28.0/build/vega.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@5.20.1/build/vega-lite.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@6.25.0/build/vega-embed.min.js"></script>
 
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -651,38 +651,34 @@ const EMBED_OPT = {
   config: VEGA_CONFIG
 };
 
-/* ── CHART 1: Adoption rate line ── */
-vegaEmbed("#chart-adoption", "specs/adoption_rate.json", EMBED_OPT).catch(console.error);
+function showLoading(id) {
+  const el = document.getElementById(id);
+  if (el) el.innerHTML = '<div style="padding:40px;text-align:center;color:#94A3B8;font-size:13px;">Loading chart…</div>';
+}
 
-/* ── CHART 2: Industry lollipop ── */
-vegaEmbed("#chart-lollipop", "specs/industry_lollipop.json", EMBED_OPT).catch(console.error);
+function embed(id, spec) {
+  showLoading(id);
+  vegaEmbed("#" + id, spec, EMBED_OPT)
+    .catch(err => {
+      const el = document.getElementById(id);
+      if (el) el.innerHTML = '<div style="padding:20px;color:#EF4444;font-size:12px;background:#FEF2F2;border-radius:8px;">Chart failed to load: ' + err.message + '</div>';
+      console.error(id, err);
+    });
+}
 
-/* ── CHART 3: Australia choropleth map ── */
-vegaEmbed("#chart-map", "specs/australia_map.json", EMBED_OPT).catch(console.error);
-
-/* ── CHART 4: Market size area + forecast ── */
-vegaEmbed("#chart-market", "specs/au_market_area.json", EMBED_OPT).catch(console.error);
-
-/* ── CHART 5: Global segments donut ── */
-vegaEmbed("#chart-donut", "specs/market_segments_donut.json", EMBED_OPT).catch(console.error);
-
-/* ── CHART 6: Investment bar ── */
-vegaEmbed("#chart-investment", "specs/investment_bar.json", EMBED_OPT).catch(console.error);
-
-/* ── CHART 7: Heatmap ── */
-vegaEmbed("#chart-heatmap", "specs/investment_heatmap.json", EMBED_OPT).catch(console.error);
-
-/* ── CHART 8: Hyperscaler capex ── */
-vegaEmbed("#chart-capex", "specs/hyperscaler_capex.json", EMBED_OPT).catch(console.error);
-
-/* ── CHART 9: Use case CAGR ── */
-vegaEmbed("#chart-cagr", "specs/use_case_cagr.json", EMBED_OPT).catch(console.error);
-
-/* ── CHART 10: Bubble chart ── */
-vegaEmbed("#chart-bubble", "specs/usecase_bubble.json", EMBED_OPT).catch(console.error);
-
-/* ── CHART 11: Dumbbell readiness ── */
-vegaEmbed("#chart-dumbbell", "specs/readiness_dumbbell.json", EMBED_OPT).catch(console.error);
+window.addEventListener("load", function() {
+  embed("chart-adoption",   "specs/adoption_rate.json");
+  embed("chart-lollipop",   "specs/industry_lollipop.json");
+  embed("chart-map",        "specs/australia_map.json");
+  embed("chart-market",     "specs/au_market_area.json");
+  embed("chart-donut",      "specs/market_segments_donut.json");
+  embed("chart-investment",  "specs/investment_bar.json");
+  embed("chart-heatmap",    "specs/investment_heatmap.json");
+  embed("chart-capex",      "specs/hyperscaler_capex.json");
+  embed("chart-cagr",       "specs/use_case_cagr.json");
+  embed("chart-bubble",     "specs/usecase_bubble.json");
+  embed("chart-dumbbell",   "specs/readiness_dumbbell.json");
+});
 </script>
 </body>
 </html>
