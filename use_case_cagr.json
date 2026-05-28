@@ -1,0 +1,106 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Fastest-growing AI use cases by 5-year CAGR (%) - IDC Worldwide AI Spending Guide 2025",
+  "width": "container",
+  "height": 260,
+  "data": {
+    "values": [
+      {
+        "use_case": "Claims processing",
+        "cagr": 35.8
+      },
+      {
+        "use_case": "Fraud detection",
+        "cagr": 31.2
+      },
+      {
+        "use_case": "Code generation",
+        "cagr": 29.5
+      },
+      {
+        "use_case": "Medical imaging AI",
+        "cagr": 27.3
+      },
+      {
+        "use_case": "Customer service bots",
+        "cagr": 24.1
+      },
+      {
+        "use_case": "Content creation",
+        "cagr": 22.8
+      },
+      {
+        "use_case": "Predictive maintenance",
+        "cagr": 19.4
+      }
+    ]
+  },
+  "mark": {
+    "type": "bar",
+    "cornerRadiusTopRight": 3,
+    "cornerRadiusBottomRight": 3
+  },
+  "encoding": {
+    "y": {
+      "field": "use_case",
+      "type": "nominal",
+      "sort": "-x",
+      "axis": {
+        "title": null,
+        "labelColor": "#374151",
+        "labelFontSize": 12
+      }
+    },
+    "x": {
+      "field": "cagr",
+      "type": "quantitative",
+      "axis": {
+        "title": "5-year CAGR (%)",
+        "labelColor": "#6B7280",
+        "gridColor": "#F3F4F6"
+      },
+      "scale": {
+        "domain": [
+          0,
+          42
+        ]
+      }
+    },
+    "color": {
+      "field": "cagr",
+      "type": "quantitative",
+      "scale": {
+        "scheme": "blues",
+        "domain": [
+          15,
+          40
+        ]
+      },
+      "legend": null
+    },
+    "tooltip": [
+      {
+        "field": "use_case",
+        "type": "nominal",
+        "title": "Use case"
+      },
+      {
+        "field": "cagr",
+        "type": "quantitative",
+        "title": "5-yr CAGR (%)",
+        "format": ".1f"
+      }
+    ]
+  },
+  "config": {
+    "background": "transparent",
+    "view": {
+      "stroke": null
+    },
+    "font": "DM Sans, sans-serif"
+  },
+  "autosize": {
+    "type": "fit",
+    "contains": "padding"
+  }
+}

@@ -1,0 +1,156 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Australian enterprise AI adoption by industry (lollipop chart)",
+  "width": "container",
+  "height": 300,
+  "data": {
+    "values": [
+      {
+        "industry": "Financial Services",
+        "adoption": 82
+      },
+      {
+        "industry": "Technology & ICT",
+        "adoption": 78
+      },
+      {
+        "industry": "Healthcare",
+        "adoption": 61
+      },
+      {
+        "industry": "Retail & Consumer",
+        "adoption": 58
+      },
+      {
+        "industry": "Manufacturing",
+        "adoption": 52
+      },
+      {
+        "industry": "Education",
+        "adoption": 44
+      },
+      {
+        "industry": "Government",
+        "adoption": 38
+      },
+      {
+        "industry": "Agriculture",
+        "adoption": 27
+      }
+    ]
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "rule",
+        "strokeWidth": 2,
+        "color": "#CBD5E1"
+      },
+      "encoding": {
+        "y": {
+          "field": "industry",
+          "type": "nominal",
+          "sort": "-x",
+          "axis": {
+            "title": null,
+            "labelColor": "#374151",
+            "labelFontSize": 12
+          }
+        },
+        "x": {
+          "field": "adoption",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              0,
+              100
+            ]
+          },
+          "axis": {
+            "title": "Adoption rate (%)",
+            "labelColor": "#6B7280",
+            "gridColor": "#F3F4F6",
+            "format": "d"
+          }
+        },
+        "x2": {
+          "datum": 0
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "point",
+        "filled": true,
+        "size": 100
+      },
+      "encoding": {
+        "y": {
+          "field": "industry",
+          "type": "nominal",
+          "sort": "-x"
+        },
+        "x": {
+          "field": "adoption",
+          "type": "quantitative"
+        },
+        "color": {
+          "condition": {
+            "test": "datum.industry === 'Financial Services' || datum.industry === 'Technology & ICT'",
+            "value": "#2563EB"
+          },
+          "value": "#93C5FD"
+        },
+        "tooltip": [
+          {
+            "field": "industry",
+            "type": "nominal",
+            "title": "Industry"
+          },
+          {
+            "field": "adoption",
+            "type": "quantitative",
+            "title": "Adoption rate (%)",
+            "format": "d"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 8,
+        "fontSize": 11,
+        "color": "#6B7280"
+      },
+      "encoding": {
+        "y": {
+          "field": "industry",
+          "type": "nominal",
+          "sort": "-x"
+        },
+        "x": {
+          "field": "adoption",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "adoption",
+          "format": "d",
+          "type": "quantitative"
+        }
+      }
+    }
+  ],
+  "config": {
+    "background": "transparent",
+    "view": {
+      "stroke": null
+    },
+    "font": "DM Sans, sans-serif"
+  },
+  "autosize": {
+    "type": "fit",
+    "contains": "padding"
+  }
+}

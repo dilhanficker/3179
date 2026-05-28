@@ -1,0 +1,236 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "AI readiness by dimension across selected countries - Oxford Insights Government AI Readiness Index 2025",
+  "width": "container",
+  "height": 320,
+  "data": {
+    "values": [
+      {
+        "dimension": "Government strategy",
+        "country": "Australia",
+        "score": 72
+      },
+      {
+        "dimension": "Government strategy",
+        "country": "USA",
+        "score": 91
+      },
+      {
+        "dimension": "Government strategy",
+        "country": "UK",
+        "score": 88
+      },
+      {
+        "dimension": "Government strategy",
+        "country": "Singapore",
+        "score": 95
+      },
+      {
+        "dimension": "Digital infrastructure",
+        "country": "Australia",
+        "score": 78
+      },
+      {
+        "dimension": "Digital infrastructure",
+        "country": "USA",
+        "score": 88
+      },
+      {
+        "dimension": "Digital infrastructure",
+        "country": "UK",
+        "score": 82
+      },
+      {
+        "dimension": "Digital infrastructure",
+        "country": "Singapore",
+        "score": 90
+      },
+      {
+        "dimension": "AI talent & skills",
+        "country": "Australia",
+        "score": 61
+      },
+      {
+        "dimension": "AI talent & skills",
+        "country": "USA",
+        "score": 94
+      },
+      {
+        "dimension": "AI talent & skills",
+        "country": "UK",
+        "score": 85
+      },
+      {
+        "dimension": "AI talent & skills",
+        "country": "Singapore",
+        "score": 79
+      },
+      {
+        "dimension": "Private investment",
+        "country": "Australia",
+        "score": 38
+      },
+      {
+        "dimension": "Private investment",
+        "country": "USA",
+        "score": 99
+      },
+      {
+        "dimension": "Private investment",
+        "country": "UK",
+        "score": 71
+      },
+      {
+        "dimension": "Private investment",
+        "country": "Singapore",
+        "score": 55
+      },
+      {
+        "dimension": "Data governance",
+        "country": "Australia",
+        "score": 68
+      },
+      {
+        "dimension": "Data governance",
+        "country": "USA",
+        "score": 74
+      },
+      {
+        "dimension": "Data governance",
+        "country": "UK",
+        "score": 82
+      },
+      {
+        "dimension": "Data governance",
+        "country": "Singapore",
+        "score": 80
+      }
+    ]
+  },
+  "layer": [
+    {
+      "transform": [
+        {
+          "aggregate": [
+            {
+              "op": "min",
+              "field": "score",
+              "as": "min_score"
+            },
+            {
+              "op": "max",
+              "field": "score",
+              "as": "max_score"
+            }
+          ],
+          "groupby": [
+            "dimension"
+          ]
+        }
+      ],
+      "mark": {
+        "type": "rule",
+        "strokeWidth": 3,
+        "color": "#E5E7EB"
+      },
+      "encoding": {
+        "y": {
+          "field": "dimension",
+          "type": "nominal",
+          "axis": {
+            "title": null,
+            "labelColor": "#374151",
+            "labelFontSize": 12
+          }
+        },
+        "x": {
+          "field": "min_score",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              0,
+              100
+            ]
+          },
+          "axis": {
+            "title": "Readiness score (0\u2013100)",
+            "labelColor": "#6B7280",
+            "gridColor": "#F3F4F6"
+          }
+        },
+        "x2": {
+          "field": "max_score"
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "point",
+        "filled": true,
+        "size": 80,
+        "opacity": 0.9
+      },
+      "encoding": {
+        "y": {
+          "field": "dimension",
+          "type": "nominal"
+        },
+        "x": {
+          "field": "score",
+          "type": "quantitative"
+        },
+        "color": {
+          "field": "country",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "Australia",
+              "USA",
+              "UK",
+              "Singapore"
+            ],
+            "range": [
+              "#F59E0B",
+              "#2563EB",
+              "#10B981",
+              "#7C3AED"
+            ]
+          },
+          "legend": {
+            "title": null,
+            "labelFontSize": 12,
+            "labelColor": "#374151"
+          }
+        },
+        "tooltip": [
+          {
+            "field": "country",
+            "type": "nominal",
+            "title": "Country"
+          },
+          {
+            "field": "dimension",
+            "type": "nominal",
+            "title": "Dimension"
+          },
+          {
+            "field": "score",
+            "type": "quantitative",
+            "title": "Score"
+          }
+        ]
+      }
+    }
+  ],
+  "config": {
+    "background": "transparent",
+    "view": {
+      "stroke": null
+    },
+    "font": "DM Sans, sans-serif"
+  },
+  "autosize": {
+    "type": "fit",
+    "contains": "padding"
+  }
+}
