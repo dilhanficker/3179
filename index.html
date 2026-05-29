@@ -348,6 +348,7 @@ footer a:hover { color: #94A3B8; }
 }
 
 /* ── VEGA EMBED TWEAKS ── */
+.vega-embed { width: 100% !important; }
 .vega-embed .chart-wrapper { width: 100% !important; }
 .vega-embed details { display: none; }
 </style>
@@ -602,9 +603,7 @@ footer a:hover { color: #94A3B8; }
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════
-     FOOTER
-════════════════════════════════════════════════ -->
+<!-- FOOTER -->
 <hr class="divider">
 <footer>
   <div class="container">
@@ -621,7 +620,9 @@ footer a:hover { color: #94A3B8; }
           <li>IBRS / Gartner Australia 2025</li>
         </ul>
       </div>
+
     </div>
+  </div>
 </footer>
 
 <script>
@@ -634,6 +635,7 @@ const VEGA_CONFIG = {
 const EMBED_OPT = {
   renderer: "svg",
   actions: false,
+  width: "container",
   config: VEGA_CONFIG
 };
 
