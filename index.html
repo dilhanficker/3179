@@ -602,20 +602,39 @@ footer a:hover { color: #94A3B8; }
   </div>
 </section>
 
-<!-- FOOTER -->
+<!-- ═══════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════ -->
 <hr class="divider">
 <footer>
   <div class="container">
-    <h4>Data sources</h4>
-    <ul class="footer-sources" style="display:flex;flex-wrap:wrap;gap:6px 24px;margin-top:8px;">
-      <li><a href="https://abs.gov.au" target="_blank">ABS Labour Force Survey 2023–24</a></li>
-      <li><a href="https://aiindex.stanford.edu" target="_blank">Stanford HAI AI Index 2025</a></li>
-      <li><a href="https://kpmg.com/au" target="_blank">KPMG AU AI Pulse Survey 2024</a></li>
-      <li><a href="https://oxfordinsights.com" target="_blank">Oxford Insights AI Readiness Index 2025</a></li>
-      <li><a href="https://idc.com" target="_blank">IDC AI Spending Guide 2025</a></li>
-      <li>Goldman Sachs Equity Research 2025</li>
-      <li>IBRS / Gartner Australia 2025</li>
-    </ul>
+    <div class="footer-grid">
+      <div>
+        <h4>About this visualisation</h4>
+        <p>Created by Dilhan Ficker · Monash University, FIT3179 Data Visualisation 2 · May 2025. All data is publicly available from authoritative sources listed below. Designed for the average informed Australian adult.</p>
+      </div>
+      <div>
+        <h4>Data sources</h4>
+        <ul class="footer-sources">
+          <li><a href="https://abs.gov.au" target="_blank">ABS Labour Force Survey 2023–24</a></li>
+          <li><a href="https://aiindex.stanford.edu" target="_blank">Stanford HAI AI Index 2025</a></li>
+          <li><a href="https://kpmg.com/au" target="_blank">KPMG AU AI Pulse Survey 2024</a></li>
+          <li><a href="https://oxfordinsights.com" target="_blank">Oxford Insights AI Readiness Index 2025</a></li>
+          <li><a href="https://idc.com" target="_blank">IDC AI Spending Guide 2025</a></li>
+          <li>Goldman Sachs Equity Research 2025</li>
+          <li>IBRS / Gartner Australia 2025</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Repository</h4>
+        <p>All Vega-Lite JSON specifications are available in the <a href="https://github.com/dilhanficker/3179" target="_blank">GitHub repository</a> under <code>specs/</code>.</p>
+        <p style="margin-top:10px;">© 2025 Dilhan Ficker. Visualisation released for academic purposes.</p>
+      </div>
+    </div>
+
+    <div class="ai-notice">
+      <strong style="color:#64748B;">AI tools disclosure:</strong> Claude (Anthropic) was used to assist with code structuring and Vega-Lite specification debugging. All data values, narrative text, chart design decisions, and domain analysis are the author's own work. Charts cannot be reproduced by standard AI chart builders due to the use of custom idioms (lollipop, dumbbell, annotated bubble) and multi-layer Vega-Lite compositions.
+    </div>
   </div>
 </footer>
 
@@ -633,37 +652,37 @@ const EMBED_OPT = {
 };
 
 /* ── CHART 1: Adoption rate line ── */
-vegaEmbed("#chart-adoption", "specs/adoption_rate.json", EMBED_OPT).catch(console.error);
+vegaEmbed("#chart-adoption", "adoption_rate.json", EMBED_OPT).catch(console.error);
 
 /* ── CHART 2: Industry lollipop ── */
-vegaEmbed("#chart-lollipop", "specs/industry_lollipop.json", EMBED_OPT).catch(console.error);
+vegaEmbed("#chart-lollipop", "industry_lollipop.json", EMBED_OPT).catch(console.error);
 
 /* ── CHART 3: Australia choropleth map ── */
-vegaEmbed("#chart-map", "specs/australia_map.json", EMBED_OPT).catch(console.error);
+vegaEmbed("#chart-map", "australia_map.json", EMBED_OPT).catch(console.error);
 
 /* ── CHART 4: Market size area + forecast ── */
-vegaEmbed("#chart-market", "specs/au_market_area.json", EMBED_OPT).catch(console.error);
+vegaEmbed("#chart-market", "au_market_area.json", EMBED_OPT).catch(console.error);
 
 /* ── CHART 5: Global segments donut ── */
-vegaEmbed("#chart-donut", "specs/market_segments_donut.json", EMBED_OPT).catch(console.error);
+vegaEmbed("#chart-donut", "market_segments_donut.json", EMBED_OPT).catch(console.error);
 
 /* ── CHART 6: Investment bar ── */
-vegaEmbed("#chart-investment", "specs/investment_bar.json", EMBED_OPT).catch(console.error);
+vegaEmbed("#chart-investment", "investment_bar.json", EMBED_OPT).catch(console.error);
 
 /* ── CHART 7: Heatmap ── */
-vegaEmbed("#chart-heatmap", "specs/investment_heatmap.json", EMBED_OPT).catch(console.error);
+vegaEmbed("#chart-heatmap", "investment_heatmap.json", EMBED_OPT).catch(console.error);
 
 /* ── CHART 8: Hyperscaler capex ── */
-vegaEmbed("#chart-capex", "specs/hyperscaler_capex.json", EMBED_OPT).catch(console.error);
+vegaEmbed("#chart-capex", "hyperscaler_capex.json", EMBED_OPT).catch(console.error);
 
 /* ── CHART 9: Use case CAGR ── */
-vegaEmbed("#chart-cagr", "specs/use_case_cagr.json", EMBED_OPT).catch(console.error);
+vegaEmbed("#chart-cagr", "use_case_cagr.json", EMBED_OPT).catch(console.error);
 
 /* ── CHART 10: Bubble chart ── */
-vegaEmbed("#chart-bubble", "specs/usecase_bubble.json", EMBED_OPT).catch(console.error);
+vegaEmbed("#chart-bubble", "usecase_bubble.json", EMBED_OPT).catch(console.error);
 
 /* ── CHART 11: Dumbbell readiness ── */
-vegaEmbed("#chart-dumbbell", "specs/readiness_dumbbell.json", EMBED_OPT).catch(console.error);
+vegaEmbed("#chart-dumbbell", "readiness_dumbbell.json", EMBED_OPT).catch(console.error);
 </script>
 </body>
 </html>
